@@ -11,7 +11,9 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 // connect database
-connectDB("mongodb://localhost:27017/tuor");
+connectDB(
+  "mongodb+srv://havietquangk4:LKWPkXbC7KERroYi@cluster0.9xjiq.mongodb.net/tuor"
+);
 // routers
 
 app.use("/api", authRouter);

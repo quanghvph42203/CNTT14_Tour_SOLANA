@@ -1,15 +1,35 @@
+
 import { StatusCodes } from "http-status-codes";
 import Product from "../models/product";
+import slugify from "slugify";
 
 // Create a new product
 export const create = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const { name, price, discount, ...rest } = req.body;
+
+    // Tạo slug từ tên sản phẩm
+    const slug = slugify(name, { lower: true, strict: true });
+
+    // Tính giá sau khi giảm (nếu có giảm giá)
+    const discount_price = discount ? price - (price * discount) / 100 : price;
+
+    const productData = {
+      ...rest,
+      name,
+      slug,
+      price,
+      discount,
+      discount_price, // Lưu giá sau khi giảm vào schema
+    };
+
+    const product = await Product.create(productData);
     return res.status(StatusCodes.CREATED).json(product);
   } catch (error) {
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
+
 
 // Get all products with pagination, sorting, and expand option
 export const getAllProducts = async (req, res) => {
