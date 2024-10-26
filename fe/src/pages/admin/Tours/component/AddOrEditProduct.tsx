@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import ProductForm from "./ProductForm";
 import {
   addProduct,
   getProductById,
   updateProduct,
-} from "./services/productService";
-import ProductForm from "./ProductForm";
+} from "../services/productService";
 
 const AddOrEditProduct = () => {
   const { id } = useParams();

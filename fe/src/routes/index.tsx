@@ -1,12 +1,12 @@
 import WebsiteLayout from "@/layouts/WebsiteLayout";
 import Login from "@/pages/(website)/Auth/Login";
 import Register from "@/pages/(website)/Auth/Register";
-import DashboardPage from "@/pages/DashboardPage";
 import { Route, Routes } from "react-router-dom";
 import ProductList from "@/pages/Admin/Tours/ProductList";
-import AddOrEditProduct from "@/pages/Admin/Tours/AddOrEditProduct";
-import ProductDetail from "@/pages/Admin/Tours/ProductDetail";
 import LayoutAdmin from "@/layouts/AdminLayout";
+import AddOrEditProduct from "@/pages/Admin/Tours/component/AddOrEditProduct";
+import ProductDetail from "@/pages/Admin/Tours/component/ProductDetail";
+import DashboardPage from "@/pages/Admin/Tours/DashboardPage";
 
 const Router = () => {
   return (

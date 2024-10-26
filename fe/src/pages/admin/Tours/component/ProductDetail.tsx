@@ -14,7 +14,7 @@ import {
   Carousel,
   Space,
 } from "antd";
-import { getProductById } from "./services/productService";
+import { getProductById } from "../services/productService";
 import { ShoppingCartOutlined, EditOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
