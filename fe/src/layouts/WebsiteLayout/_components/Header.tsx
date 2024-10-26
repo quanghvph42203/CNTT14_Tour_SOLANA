@@ -1,6 +1,6 @@
 import React from "react";
 import "../../../styles/header.css";
-import imageHeader from "../../../img/GoodTrip5.png"
+import imageHeader from "../../../img/GoodTrip5.png";
 const Header = () => {
   return (
     <header id="header">
