@@ -1,11 +1,12 @@
 import WebsiteLayout from "@/layouts/WebsiteLayout";
-import Login from "@/pages/(website)/Login/Login";
+import Login from "@/pages/(website)/Auth/Login";
+import Register from "@/pages/(website)/Auth/Register";
+import DashboardPage from "@/pages/DashboardPage";
 import { Route, Routes } from "react-router-dom";
-import LayoutAdmin from "@/layouts/AdminLayout";
-import DashboardPage from "@/pages/Admin/Dashboard";
 import ProductList from "@/pages/Admin/Tours/ProductList";
 import AddOrEditProduct from "@/pages/Admin/Tours/AddOrEditProduct";
 import ProductDetail from "@/pages/Admin/Tours/ProductDetail";
+import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
   return (
@@ -13,7 +14,8 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<WebsiteLayout />}>
           {/* <Route index element={< />} /> */}
-          <Route path="signin" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Route>
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<DashboardPage />} />
