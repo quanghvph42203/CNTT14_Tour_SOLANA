@@ -81,7 +81,11 @@ const ProductDetail = () => {
 
           {/* Right Section: product Details */}
           <Col xs={24} md={14}>
-            <Space direction="vertical" size="large" style={{ width: "100%" }}>
+            <Space
+              direction="vertical"
+              size="large"
+              style={{ width: "100%", padding: "50px" }}
+            >
               <div>
                 <Title level={2}>{product.name}</Title>
                 <Paragraph type="secondary">{product.description}</Paragraph>
@@ -105,7 +109,7 @@ const ProductDetail = () => {
                 <Descriptions.Item label="Địa điểm">
                   {product.location}
                 </Descriptions.Item>
-                <Descriptions.Item label="Số lượng tồn kho">
+                <Descriptions.Item label="Số lượng chỗ">
                   {product.countInStock}
                 </Descriptions.Item>
                 <Descriptions.Item label="Danh mục">
@@ -119,20 +123,7 @@ const ProductDetail = () => {
                     <Tag color="red">Không có danh mục</Tag>
                   )}
                 </Descriptions.Item>
-                <Descriptions.Item label="Tags">
-                  {product.tags.length > 0 ? (
-                    product.tags.map((tag, index) => (
-                      <Tag key={index} color="green">
-                        {tag}
-                      </Tag>
-                    ))
-                  ) : (
-                    <Tag color="red">Không có tag</Tag>
-                  )}
-                </Descriptions.Item>
               </Descriptions>
-
-              <Divider />
 
               <div style={{ display: "flex", gap: 16 }}>
                 <Button
