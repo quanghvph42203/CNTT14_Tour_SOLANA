@@ -5,8 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "start": "node src/app.js"
+        "dev": "node app.js"
     },
     "keywords": [],
     "author": "",

@@ -40,7 +40,9 @@ const DetailUser: React.FC = () => {
 
     return (
         <div className="container mx-auto p-4">
+
             
+
             <div className="mb-4">
                 <button 
                     onClick={() => navigate('/')} 

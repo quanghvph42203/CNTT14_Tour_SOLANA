@@ -7,6 +7,7 @@ import BlacklistedToken from "../models/black-listed-token";
 
 // Validation schema for signup
 const signupSchema = Joi.object({
+
     name: Joi.string().min(3).max(30).messages({
         "string.min": "Trường Name phải có ít nhất {#limit} ký tự",
         "string.max": "Trường Name không được vượt quá {#limit} ký tự",
@@ -32,10 +33,12 @@ const signupSchema = Joi.object({
     avatar: Joi.string().uri().messages({
         "string.uri": "Trường Avatar phải là đường dẫn hợp lệ",
     }),
+
 });
 
 // JWT token generators
 const generateRefreshToken = (userId) =>
+
     jwt.sign({ userId }, "123456", { expiresIn: "7d" });
 const generateAccessToken = (userId) =>
     jwt.sign({ userId }, "123456", { expiresIn: "15m" });
@@ -79,10 +82,12 @@ export const signup = async (req, res) => {
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
             .json({ error: "Internal Server Error" });
     }
+
 };
 
 // Signin function
 export const signin = async (req, res) => {
+
     const { email, password } = req.body;
 
     // Validate inputs: Check if both email and password are provided
@@ -130,10 +135,12 @@ export const signin = async (req, res) => {
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
             .json({ error: "Internal Server Error" });
     }
+
 };
 
 // Logout function
 export const logout = async (req, res) => {
+
     try {
         const token = req.headers.authorization;
         if (!token) {
@@ -164,10 +171,12 @@ export const logout = async (req, res) => {
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
             .json({ error: "Internal Server Error" });
     }
+
 };
 
 // Token refresh function
 export const refreshToken = async (req, res) => {
+
     try {
         const oldToken = req.headers.authorization;
         console.log(oldToken);
@@ -218,10 +227,12 @@ export const refreshToken = async (req, res) => {
             .status(StatusCodes.INTERNAL_SERVER_ERROR)
             .json({ error: "Internal Server Error" });
     }
+
 };
 
 // Check if token is blacklisted
 export const isTokenBlacklisted = async (token) => {
+
     const tokenInBlacklist = await BlacklistedToken.findOne({ token });
 
     if (!tokenInBlacklist) return false;
@@ -237,4 +248,5 @@ export const isTokenBlacklisted = async (token) => {
     }
 
     return true; // Token hợp lệ và đang bị blacklist
+
 };

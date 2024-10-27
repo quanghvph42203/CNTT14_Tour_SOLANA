@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { IUser } from '@/common/types/user';
@@ -69,3 +70,4 @@ const Users: React.FC = () => {
 }
 
 export default Users;
+

@@ -7,4 +7,6 @@ export const connectDB = async (uri) => {
     } catch (error) {
         console.log(error);
     }
+
 };
+

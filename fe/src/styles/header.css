@@ -2,6 +2,7 @@
 
 /*==================================== CSS PHẦN HEADING ====================================== */
 #header {
+
     width: 100%;
     height: 6.5rem;
     background-color: rgba(38, 40, 53, 0.4);
@@ -23,10 +24,11 @@
     left: 5rem;
     display: inline-block;
     cursor: pointer;
-}
+
 
 #nav,
 .subnav {
+
     list-style: none;
 }
 #nav > li {
@@ -186,4 +188,6 @@
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+
+}
 }

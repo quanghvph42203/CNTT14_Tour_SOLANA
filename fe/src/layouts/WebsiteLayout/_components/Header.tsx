@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import "../../../styles/header.css";
 import imageHeader from "../../../img/GoodTrip5.png";
@@ -81,6 +82,7 @@ const Header = () => {
             </div>
         </header>
     );
+
 };
 
 export default Header;

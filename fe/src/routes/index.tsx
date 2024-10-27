@@ -1,3 +1,4 @@
+
 import WebsiteLayout from "@/layouts/WebsiteLayout";
 import Login from "@/pages/(website)/Auth/Login";
 import Register from "@/pages/(website)/Auth/Register";
@@ -41,6 +42,7 @@ const Router = () => {
             </Routes>
         </>
     );
+
 };
 
 export default Router;

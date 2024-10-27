@@ -109,7 +109,9 @@ const EditUser: React.FC = () => {
                         <option value="user">User</option>
                     </select>
                 </div>
+
                 <div className="mb-4">
+
                     <label className="block text-gray-700" htmlFor="avatar">Ảnh đại diện:</label>
                     <input
                         type="file"
@@ -122,7 +124,9 @@ const EditUser: React.FC = () => {
                         }}
                         className="w-full border border-gray-300 p-2 rounded"
                     />
+
                 </div>
+
                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
                     Cập Nhật
                 </button>
