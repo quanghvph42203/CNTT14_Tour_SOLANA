@@ -1,3 +1,4 @@
+
 import WebsiteLayout from "@/layouts/WebsiteLayout";
 import Login from "@/pages/(website)/Auth/Login";
 import Register from "@/pages/(website)/Auth/Register";
@@ -10,6 +11,9 @@ import LayoutAdmin from "@/layouts/AdminLayout";
 import ProductList from "@/pages/admin/Tours/ProductList";
 import AddOrEditProduct from "@/pages/admin/Tours/AddOrEditProduct";
 import ProductDetail from "@/pages/admin/Tours/ProductDetail";
+import DetailUser from "@/pages/admin/User/DetailUser";
+import EditUser from "@/pages/admin/User/EditUser";
+import Users from "@/pages/admin/User";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -30,11 +34,15 @@ const Router = () => {
                         path="products/:id/edit"
                         element={<AddOrEditProduct />}
                     />
+                    <Route path="users" element={<Users />} />
+                    <Route path="users/:id" element={<DetailUser />} />
+                    <Route path="users/:id/edit" element={<EditUser />} />
                 </Route>
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
             </Routes>
         </>
     );
+
 };
 
 export default Router;
