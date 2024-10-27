@@ -1,0 +1,112 @@
+/* |---------------------------------------------------------------------------
+   | REGISTER PAGE |
+   |---------------------------------------------------------------------------
+*/
+#register .register-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+        url(../public/img/backbooking.jpg);
+    background-size: cover;
+    height: 110vh;
+    justify-content: center;
+    position: relative;
+}
+#register .register-banner .uiregister {
+    width: 64rem;
+    background: #fff;
+    border-radius: 8px;
+    max-width: calc(100vw - 32px);
+    min-height: 60rem;
+    padding: 25px 16px 48px;
+    position: relative;
+    margin: 0 auto;
+    margin-top: -20px;
+    text-align: center;
+    top: 6.6rem;
+}
+#register .register-banner .uiregister .register-top img {
+    width: 9rem;
+}
+#register .register-banner .uiregister .register-top h1 {
+    margin-top: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+#register .register-banner .uiregister .register-mid {
+    margin-top: 20px;
+}
+#register .register-banner .uiregister .register-mid input {
+    min-width: 40rem;
+    min-height: 5rem;
+    margin: 30px auto 15px;
+    background-color: rgba(207, 253, 213, 0.151);
+    border: 0.5px solid rgba(166, 248, 177, 0.849);
+    display: block;
+    flex: 1 1;
+    font-size: 1.4rem;
+    outline: none;
+    padding: 12px 20px;
+    font-size: 15px;
+}
+#register .register-banner .uiregister .register-mid .sub-register-mid {
+    width: 58rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+}
+#register .register-banner .uiregister .register-mid .sub-register-mid p {
+    display: inline;
+}
+#register .register-banner .uiregister .register-mid .sub-register-mid a {
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: #06aa2a;
+}
+#register .register-banner .uiregister .register-bot input:hover,
+#register .register-banner .uiregister .register-mid .sub-register-mid a:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+#register .register-banner .uiregister .register-mid input:focus {
+    background-color: rgba(207, 253, 213, 0.959);
+}
+#register .register-banner .uiregister .register-bot input {
+    margin-top: 20px;
+    min-width: 40rem;
+    min-height: 6rem;
+    font-size: 1.8rem;
+    background-image: linear-gradient(
+        to left,
+        rgba(16, 255, 8, 0.658),
+        rgba(0, 151, 0, 0.363)
+    );
+    border: none;
+}
+#register .register-banner .uiregister .another-register .mxh {
+    margin-top: 4rem;
+}
+#register .register-banner .uiregister .another-register .mxh .primary-btn {
+    padding: 2.5rem 2rem 2rem 2rem !important;
+    width: 6rem;
+    height: 6rem;
+    line-height: 2em !important;
+    border-radius: 0.6rem;
+    border-color: transparent;
+    background: #fff !important;
+    margin: 0.5rem;
+}
+#register .register-banner .uiregister .another-register .mxh .primary-btn i {
+    font-size: 3.5rem;
+    font-weight: 400;
+    color: green !important;
+    text-align: center;
+}
+#register
+    .register-banner
+    .uiregister
+    .another-register
+    .mxh
+    .primary-btn
+    i:hover {
+    opacity: 0.5;
+}
