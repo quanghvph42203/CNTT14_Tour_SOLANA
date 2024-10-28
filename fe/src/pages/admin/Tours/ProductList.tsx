@@ -28,7 +28,7 @@ const ProductList = () => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     Modal.confirm({
       title: "Xóa sản phẩm",
       content: "Bạn có chắc chắn muốn xóa sản phẩm này?",
@@ -66,7 +66,7 @@ const ProductList = () => {
       dataIndex: "price",
       key: "price",
       align: "center",
-      render: (price) => <span>{price.toLocaleString()}</span>,
+      render: (price: number) => <span>{price.toLocaleString()}</span>,
     },
     {
       title: (
@@ -75,7 +75,7 @@ const ProductList = () => {
       dataIndex: "discount_price",
       key: "discount_price",
       align: "center",
-      render: (discount) => (
+      render: (discount: number) => (
         <span>{discount ? discount.toLocaleString() : "Không có"}</span>
       ),
     },
@@ -88,7 +88,7 @@ const ProductList = () => {
       dataIndex: "countInStock",
       key: "countInStock",
       align: "center",
-      render: (count) => (
+      render: (count: any) => (
         <span style={{ color: count > 0 ? "green" : "red" }}>
           {count > 0 ? `${count} chỗ` : "Hết chỗ"}
         </span>

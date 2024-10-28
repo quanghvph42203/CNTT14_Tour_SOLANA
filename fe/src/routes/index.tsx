@@ -14,9 +14,10 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<WebsiteLayout />}>
           {/* <Route index element={< />} /> */}
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        
         <Route path="admin" element={<LayoutAdmin />}>
           <Route index element={<DashboardPage />} />
           <Route path="products" element={<ProductList />} />

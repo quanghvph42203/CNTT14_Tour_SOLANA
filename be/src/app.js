@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import authRouter from "./routers/auth";
 import productRouter from "./routers/product";
+import userRouter from "./routers/user.js";
 const app = express();
 // middleware
 app.use(express.json());
@@ -18,4 +19,5 @@ connectDB(
 
 app.use("/api", authRouter);
 app.use("/api", productRouter);
+app.use("/api", userRouter);
 export const viteNodeApp = app;

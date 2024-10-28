@@ -24,7 +24,7 @@ const Login = (props: Props) => {
             // console.log(result.data.user);
             localStorage.setItem("accessToken", result.data.accessToken);
             localStorage.setItem("user", JSON.stringify(result.data.user));
-            toast.success("Login successfully");
+           toast.success("Đăng nhập thành công")
             nav("/");
         } catch (error) {
             console.log(error);
