@@ -26,7 +26,8 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
+      default:
+        "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
     },
   },
   { timestamps: true }
