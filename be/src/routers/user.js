@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  createUser,
+  
   getUser,
   getUsers,
   updateUser,
@@ -9,10 +9,9 @@ import {
 
 const router = express.Router();
 
-router.post("/users", createUser);
-router.get("/getusers", getUsers);
-router.get("/getusers/:id", getUser);
-router.put("/updateusers/:id", updateUser);
-router.delete("/deleteusers/:id", deleteUser);
+router.get("/users", getUsers);
+router.get("/users/:id", getUser);
+router.put("/users/:id", updateUser);
+router.delete("/users/:id", deleteUser);
 
 export default router;

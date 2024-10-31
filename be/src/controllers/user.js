@@ -26,11 +26,9 @@ export const createUser = async (req, res) => {
     });
 
     await user.save();
-    res
-      .status(201)
-      .json({ message: "Người dùng đã được tạo thành công.", user });
+    res.status(201).json({ message: "Người dùng đã được tạo thành công.", user });
   } catch (error) {
-    res.status(500).json({ message: "Không thể tạo người dùng.", error });
+    res.status(500).json({ message: "Không thể tạo người dùng.", error: error.message });
   }
 };
 
@@ -46,9 +44,7 @@ export const getUser = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Không thể lấy thông tin người dùng.", error });
+    res.status(500).json({ message: "Không thể lấy thông tin người dùng.", error: error.message });
   }
 };
 
@@ -58,16 +54,14 @@ export const getUsers = async (req, res) => {
     const users = await User.find();
     res.status(200).json(users);
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Không thể lấy danh sách người dùng.", error });
+    res.status(500).json({ message: "Không thể lấy danh sách người dùng.", error: error.message });
   }
 };
 
 // Cập nhật thông tin người dùng
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, email, role, avatar } = req.body;
+  const { name, email, role, avatar, password } = req.body;
 
   try {
     // Kiểm tra người dùng tồn tại
@@ -82,12 +76,15 @@ export const updateUser = async (req, res) => {
     user.role = role || user.role;
     user.avatar = avatar || user.avatar;
 
+    // Nếu có mật khẩu mới, mã hóa và cập nhật
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
+
     await user.save();
-    res
-      .status(200)
-      .json({ message: "Thông tin người dùng đã được cập nhật.", user });
+    res.status(200).json({ message: "Thông tin người dùng đã được cập nhật.", user });
   } catch (error) {
-    res.status(500).json({ message: "Không thể cập nhật người dùng.", error });
+    res.status(500).json({ message: "Không thể cập nhật người dùng.", error: error.message });
   }
 };
 
@@ -103,6 +100,6 @@ export const deleteUser = async (req, res) => {
 
     res.status(200).json({ message: "Người dùng đã được xóa thành công." });
   } catch (error) {
-    res.status(500).json({ message: "Không thể xóa người dùng.", error });
+    res.status(500).json({ message: "Không thể xóa người dùng.", error: error.message });
   }
 };

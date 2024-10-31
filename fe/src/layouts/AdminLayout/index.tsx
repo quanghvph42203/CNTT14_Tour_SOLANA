@@ -44,7 +44,7 @@ const LayoutAdmin = () => {
                                     Dashboard
                                 </Menu.Item>
                                 <Menu.Item key="2" icon={<UserOutlined />}>
-                                    Quản lý khách hàng
+                                    <Link to={`users`}>Quản lý khách hàng</Link>
                                 </Menu.Item>
                                 <Menu.Item key="3" icon={<ProfileOutlined />}>
                                     <Link to={`products`}>Quản lý tour</Link>

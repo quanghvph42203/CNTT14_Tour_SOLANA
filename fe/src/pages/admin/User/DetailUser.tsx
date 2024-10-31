@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { IUser } from '@/common/types/user';
+import instance from '@/configs/axios';
 
 const DetailUser: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -13,11 +13,12 @@ const DetailUser: React.FC = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/users/${id}`);
+                const response = await instance.get(`/users/${id}`);
                 setUser(response.data);
-            } catch (error) {
-                console.error("Có lỗi khi lấy thông tin người dùng!", error.response || error);
-                setError("Không thể tải thông tin người dùng");
+            } catch (error: any) {
+                // Handle error based on the response structure
+                const errorMessage = error.response?.data?.message || "Không thể tải thông tin người dùng";
+                setError(errorMessage);
             } finally {
                 setLoading(false);
             }
@@ -40,15 +41,12 @@ const DetailUser: React.FC = () => {
 
     return (
         <div className="container mx-auto p-4">
-
-            
-
             <div className="mb-4">
                 <button 
-                    onClick={() => navigate('/')} 
+                    onClick={() => navigate('/admin/users')} 
                     className="bg-blue-500 text-white rounded p-2 hover:bg-blue-600"
                 >
-                    Trở về trang chủ
+                    Trở về
                 </button>
             </div>
 
@@ -60,7 +58,7 @@ const DetailUser: React.FC = () => {
                         alt={`${user.name}'s avatar`} 
                         className="w-24 h-24 rounded-full border-2 border-gray-300 mb-4" 
                     />
-                    <h2 className="text-xl font-semibold">Tên: {user.name}</h2>
+                    <h2 className="text-2xl font-semibold">Tên: {user.name}</h2>
                     <p className="text-gray-600">Email: {user.email}</p>
                     <p className="text-gray-600">Vai Trò: {user.role}</p>
                 </div>
