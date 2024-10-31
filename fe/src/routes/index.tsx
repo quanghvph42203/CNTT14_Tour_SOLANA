@@ -13,7 +13,7 @@ import AddOrEditProduct from "@/pages/admin/Tours/AddOrEditProduct";
 import ProductDetail from "@/pages/admin/Tours/ProductDetail";
 import DetailUser from "@/pages/admin/User/DetailUser";
 import EditUser from "@/pages/admin/User/EditUser";
-import Users from "@/pages/admin/User";
+import UsersList from "@/pages/admin/User";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -34,9 +34,9 @@ const Router = () => {
                         path="products/:id/edit"
                         element={<AddOrEditProduct />}
                     />
-                    <Route path="users" element={<Users />} />
+                    <Route path="users" element={<UsersList />} />
                     <Route path="users/:id" element={<DetailUser />} />
-                    <Route path="users/:id/edit" element={<EditUser />} />
+                    <Route path="users/edit/:id" element={<EditUser />} />
                 </Route>
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
             </Routes>
