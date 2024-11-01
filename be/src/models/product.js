@@ -1,3 +1,4 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
@@ -54,6 +55,19 @@ const productSchema = new mongoose.Schema(
     location: {
       type: String, // Location of the product (e.g., where it’s sold or made)
       required: false,
+    },
+    image: {
+      type: String,
+      default:
+        "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
+    },
+    starts: {
+      type: number,
+    },
+    status: {
+      type: String,
+      enum: ["available", "sold out"],
+      default: "available",
     },
   },
   { timestamps: true, versionKey: false }
