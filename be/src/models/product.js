@@ -61,9 +61,9 @@ const productSchema = new mongoose.Schema(
       default:
         "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
     },
-    starts: {
-      type: number,
-    },
+    // starts: {
+    //   type: number,
+    // },
     status: {
       type: String,
       enum: ["available", "sold out"],
