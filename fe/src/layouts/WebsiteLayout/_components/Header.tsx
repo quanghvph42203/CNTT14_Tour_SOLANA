@@ -6,6 +6,7 @@ const Header = () => {
     const users = JSON.parse(localStorage.getItem("user") as string);
     const [openAccount, setOpenAccount] = useState(false);
     console.log(openAccount);
+    // logout
     const handleLogout = async () => {
         await instance.post("/auth/logOut");
         localStorage.removeItem("accessToken");
