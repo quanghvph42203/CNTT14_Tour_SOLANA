@@ -45,9 +45,10 @@ const Router = () => {
             <Route path="/blogvungtau" element={<Blogvungtau />} />
             <Route path="/blogcantho" element={<Blogcantho />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            
           </Route>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="admin" element={<LayoutAdmin />}>
             <Route index element={<DashboardPage />} />
