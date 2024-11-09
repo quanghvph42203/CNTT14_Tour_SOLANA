@@ -1,141 +1,108 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { IUser } from '@/common/types/user';
 import instance from '@/configs/axios';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+
+interface IUser {
+  name: string;
+  email: string;
+  role: "user" | "admin";
+  avatar: string;
+}
 
 const EditUser: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const [user, setUser] = useState<IUser | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [role, setRole] = useState<string>(''); 
-    const [avatar, setAvatar] = useState<File | null>(null); 
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<IUser>({
+    name: '',
+    email: '',
+    role: 'user',
+    avatar: ''
+  });
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await instance.get(`users/${id}`);
-                setUser(response.data);
-                setName(response.data.name);
-                setEmail(response.data.email);
-                setRole(response.data.role);
-            } catch (error) {
-                console.error("Lỗi khi lấy thông tin người dùng!", error);
-                setError("Không thể tải thông tin người dùng");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, [id]);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('role', role);
-        if (avatar) {
-            formData.append('avatar', avatar);
-        }
-
-        try {
-            await instance.put(`users/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            setSuccess("Thông tin người dùng đã được cập nhật thành công!");
-            setTimeout(() => navigate(`/admin/users/${id}`), 2000); // Chuyển hướng sau 2 giây
-        } catch (error) {
-            console.error("Lỗi khi cập nhật thông tin người dùng!", error);
-            setError("Không thể cập nhật thông tin người dùng");
-        }
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await instance.get(`/users/${id}`);
+        setUser(response.data);
+      } catch (error) {
+        window.alert('Không thể lấy thông tin người dùng.');
+      }
     };
 
-    if (loading) {
-        return <p className="text-center">Đang tải thông tin người dùng...</p>;
-    }
+    fetchUser();
+  }, [id]);
 
-    if (error) {
-        return <p className="text-center text-red-600">{error}</p>;
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
+  };
 
-    if (!user) {
-        return <p className="text-center">Không tìm thấy người dùng.</p>;
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await instance.put(`/users/${id}`, user);
+      window.alert(response.data.message || 'Thông tin người dùng đã được cập nhật thành công.');
+      navigate('/admin/users');
+    } catch (error) {
+      window.alert('Không thể cập nhật người dùng.');
     }
+  };
 
-    return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold text-center mb-4">Chỉnh Sửa Thông Tin Người Dùng</h1>
-            {success && <p className="text-center text-green-600">{success}</p>}
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6">
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="name">Tên:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="role">Vai Trò:</label>
-                    <select
-                        id="role"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded"
-                        required
-                    >
-                        <option value="" disabled>Chọn vai trò</option>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </select>
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="avatar">Ảnh đại diện:</label>
-                    <input
-                        type="file"
-                        id="avatar"
-                        accept="image/*"
-                        onChange={(e) => {
-                            if (e.target.files) {
-                                const selectedFile = e.target.files[0];
-                                if (selectedFile && selectedFile.type.startsWith('image/')) {
-                                    setAvatar(selectedFile);
-                                } else {
-                                    setError("Vui lòng chọn một tập tin hình ảnh hợp lệ.");
-                                }
-                            }
-                        }}
-                        className="w-full border border-gray-300 p-2 rounded"
-                    />
-                </div>
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-                    Cập Nhật
-                </button>
-            </form>
+  return (
+    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-2xl font-bold text-center mb-6">Chỉnh sửa thông tin người dùng</h2>
+      <form onSubmit={handleUpdate} className="space-y-4">
+        <div>
+          <label className="block text-gray-700">Tên:</label>
+          <input
+            type="text"
+            name="name"
+            value={user.name}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
-    );
+        <div>
+          <label className="block text-gray-700">Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Vai trò:</label>
+          <select
+            name="role"
+            value={user.role}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-gray-700">Avatar:</label>
+          <input
+            type="text"
+            name="avatar"
+            value={user.avatar}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
+        >
+          Lưu thay đổi
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default EditUser;
