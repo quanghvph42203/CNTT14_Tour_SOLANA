@@ -10,11 +10,18 @@ const productSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
+    destination: { type: String, required: true }, //điểm đến
+    duration: { type: String, required: true }, // Thời gian của tour (ví dụ: 3 ngày 2 đêm)
     slug: {
       type: String,
       unique: true,
       index: true,
     },
+    startDate: { type: Date, required: true },
+
+    endDate: { type: Date },
+    capacity: { type: Number, required: true }, //số lượng khách tối đa
+    availability: { type: Number, required: true }, //số chỗ còn trống
     category: [
       {
         type: String,
@@ -61,14 +68,13 @@ const productSchema = new mongoose.Schema(
       default:
         "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
     },
-    // starts: {
-    //   type: number,
-    // },
+
     status: {
       type: String,
       enum: ["available", "sold out"],
       default: "available",
     },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true, versionKey: false }
 );
