@@ -10,27 +10,27 @@ const productSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
-    destination: { type: String, required: true }, //điểm đến
-    duration: { type: String, required: true }, // Thời gian của tour (ví dụ: 3 ngày 2 đêm)
+    destination: { type: String  }, //điểm đến
+    duration: { type: String }, // Thời gian của tour (ví dụ: 3 ngày 2 đêm)
     slug: {
       type: String,
-      unique: true,
+      
       index: true,
     },
-    startDate: { type: Date, required: true },
+    startDate: { type: Date },
 
     endDate: { type: Date },
-    capacity: { type: Number, required: true }, //số lượng khách tối đa
-    availability: { type: Number, required: true }, //số chỗ còn trống
+    capacity: { type: Number }, //số lượng khách tối đa
+    availability: { type: Number }, //số chỗ còn trống
     category: [
       {
         type: String,
-        required: true,
+        
       },
     ],
     price: {
       type: Number,
-      required: true,
+      
       default: 0,
     },
     discount_price: {

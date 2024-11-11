@@ -1,138 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { IUser } from '@/common/types/user';
+import React, { useState } from "react";
+import { updateUser } from "./API";
 
-const EditUser: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const [user, setUser] = useState<IUser | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [role, setRole] = useState<string>(''); 
-    const [avatar, setAvatar] = useState<File | null>(null); 
-    const navigate = useNavigate();
+const EditUserForm = ({ user, onUserUpdated }) => {
+  const [updatedUser, setUpdatedUser] = useState(user);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/users/${id}`);
-                setUser(response.data);
-                setName(response.data.name);
-                setEmail(response.data.email);
-                setRole(response.data.role);
-            } catch (error) {
-                console.error("Có lỗi khi lấy thông tin người dùng!", error);
-                setError("Không thể tải thông tin người dùng");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, [id]);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('role', role);
-        if (avatar) {
-            formData.append('avatar', avatar);
-        }
-
-        try {
-            await axios.put(`http://localhost:3000/users/${id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            navigate(`/users/${id}`); 
-        } catch (error) {
-            console.error("Có lỗi khi cập nhật thông tin người dùng!", error);
-            setError("Không thể cập nhật thông tin người dùng");
-        }
-    };
-
-    if (loading) {
-        return <p className="text-center">Đang tải thông tin người dùng...</p>;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await updateUser(user._id, updatedUser);
+      onUserUpdated();
+    } catch (error) {
+      console.error("Error updating user:", error);
     }
+  };
 
-    if (error) {
-        return <p className="text-center text-red-600">{error}</p>;
-    }
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="p-6 max-w-md mx-auto bg-white rounded-lg shadow-lg space-y-4"
+    >
+      <h2 className="text-2xl font-semibold text-gray-800">Chỉnh sửa người dùng</h2>
 
-    if (!user) {
-        return <p className="text-center">Không tìm thấy người dùng.</p>;
-    }
+      <div className="space-y-2">
+        <label htmlFor="name" className="text-sm font-medium text-gray-700">
+          Tên
+        </label>
+        <input
+          type="text"
+          id="name"
+          value={updatedUser.name}
+          onChange={(e) =>
+            setUpdatedUser({ ...updatedUser, name: e.target.value })
+          }
+          required
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+        />
+      </div>
 
-    return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold text-center mb-4">Chỉnh Sửa Thông Tin Người Dùng</h1>
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6">
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="name">Tên:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700" htmlFor="role">Vai Trò:</label>
-                    <select
-                        id="role"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        className="w-full border border-gray-300 p-2 rounded"
-                        required
-                    >
-                        <option value="" disabled>Chọn vai trò</option>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </select>
-                </div>
+      <div className="space-y-2">
+        <label htmlFor="email" className="text-sm font-medium text-gray-700">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          value={updatedUser.email}
+          onChange={(e) =>
+            setUpdatedUser({ ...updatedUser, email: e.target.value })
+          }
+          required
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+        />
+      </div>
 
-                <div className="mb-4">
+      <div className="space-y-2">
+        <label htmlFor="role" className="text-sm font-medium text-gray-700">
+          Vai trò
+        </label>
+        <select
+          id="role"
+          value={updatedUser.role}
+          onChange={(e) =>
+            setUpdatedUser({ ...updatedUser, role: e.target.value })
+          }
+          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+        >
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
 
-                    <label className="block text-gray-700" htmlFor="avatar">Ảnh đại diện:</label>
-                    <input
-                        type="file"
-                        id="avatar"
-                        accept="image/*"
-                        onChange={(e) => {
-                            if (e.target.files) {
-                                setAvatar(e.target.files[0]);
-                            }
-                        }}
-                        className="w-full border border-gray-300 p-2 rounded"
-                    />
-
-                </div>
-
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
-                    Cập Nhật
-                </button>
-            </form>
-        </div>
-    );
+      <button
+        type="submit"
+        className="w-full bg-yellow-500 text-white py-2 rounded-md mt-4 hover:bg-yellow-600 transition duration-200"
+      >
+        Cập nhật
+      </button>
+    </form>
+  );
 };
 
-export default EditUser;
+export default EditUserForm;
