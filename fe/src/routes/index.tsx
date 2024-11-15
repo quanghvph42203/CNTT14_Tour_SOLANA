@@ -27,41 +27,46 @@ import Blogvungtau from "@/pages/(website)/Blog/Blogpage/Blogvungtau";
 import Blogcantho from "@/pages/(website)/Blog/Blogpage/Blogcantho";
 import DetailTour from "@/pages/(website)/Home/DetailTour";
 import UserEdit from "@/pages/admin/User/EditUser";
+import PayTour from "@/pages/(website)/payTour/PayTour";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
     return (
-      <>
-        <Routes>
-          <Route path="/" element={<WebsiteLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="/detail-tour/:id" element={<DetailTour />} />
-            <Route path="/sapa" element={<Sapa />} />
-            <Route path="/dalat" element={<Dalat />} />
-            <Route path="/vungtau" element={<Vungtau />} />
-            <Route path="/cantho" element={<Cantho />} />
-            <Route path="/tour" element={<Tour />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blogsapa" element={<Blogsapa />} />
-            <Route path="/blogdalat" element={<Blogdalat />} />
-            <Route path="/blogvungtau" element={<Blogvungtau />} />
-            <Route path="/blogcantho" element={<Blogcantho />} />
-            <Route path="/contact" element={<Contact />} />
-          </Route>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+        <>
+            <Routes>
+                <Route path="/" element={<WebsiteLayout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="/detail-tour/:id" element={<DetailTour />} />
+                    <Route path="/sapa" element={<Sapa />} />
+                    <Route path="/dalat" element={<Dalat />} />
+                    <Route path="/vungtau" element={<Vungtau />} />
+                    <Route path="/cantho" element={<Cantho />} />
+                    <Route path="/tour" element={<Tour />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/blogsapa" element={<Blogsapa />} />
+                    <Route path="/blogdalat" element={<Blogdalat />} />
+                    <Route path="/blogvungtau" element={<Blogvungtau />} />
+                    <Route path="/blogcantho" element={<Blogcantho />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/payTour/:id" element={<PayTour />} />
+                </Route>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
 
-          <Route path="admin" element={<LayoutAdmin />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="products" element={<ProductList />} />
-            <Route path="products/add" element={<AddOrEditProduct />} />
-            <Route path="products/:id" element={<ProductDetail />} />
-            <Route path="products/:id/edit" element={<AddOrEditProduct />} />
-            <Route path="users" element={<Users />} />
-          </Route>
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
-        </Routes>
-      </>
+                <Route path="admin" element={<LayoutAdmin />}>
+                    <Route index element={<DashboardPage />} />
+                    <Route path="products" element={<ProductList />} />
+                    <Route path="products/add" element={<AddOrEditProduct />} />
+                    <Route path="products/:id" element={<ProductDetail />} />
+                    <Route
+                        path="products/:id/edit"
+                        element={<AddOrEditProduct />}
+                    />
+                    <Route path="users" element={<Users />} />
+                </Route>
+                {/* <Route path="*" element={<NotFoundPage />} /> */}
+            </Routes>
+        </>
     );
 };
 

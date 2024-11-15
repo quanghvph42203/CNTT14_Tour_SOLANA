@@ -159,35 +159,20 @@ const DetailTour = () => {
                             {tour?.countInStock !== undefined &&
                             tour.countInStock > 0 ? (
                                 <>
-                                    <button className="w-[250px] h-[60px] bg-[#ff5c01] text-white rounded-xl pb-[8px] hover:bg-[#ff3232]">
-                                        <i className="fa-brands fa-opencart text-5xl"></i>
-                                        <span className="text-2xl ms-2">
-                                            Thêm Tour
-                                        </span>
-                                        <i className="fa-solid fa-chevron-right text-xl ms-4"></i>
-                                    </button>
-                                    <button className="w-[250px] h-[60px] bg-[#ff5c01] text-white rounded-xl pb-[8px] ms-5 hover:bg-[#ff3232]">
-                                        <i className="fa-solid fa-plane-departure text-5xl"></i>
-                                        <span className="text-2xl ms-2">
-                                            Đặt Ngay
-                                        </span>
-                                        <i className="fa-solid fa-chevron-right text-xl ms-4"></i>
-                                    </button>
+                                    <Link to={`/payTour/${tour._id}`}>
+                                        <button className="w-[350px] h-[60px] bg-[#ff5c01] text-white rounded-xl pb-[8px] ms-1 hover:bg-[#ff3232]">
+                                            <i className="fa-solid fa-plane-departure text-5xl"></i>
+                                            <span className="text-2xl ms-2">
+                                                Đặt Ngay
+                                            </span>
+                                            <i className="fa-solid fa-chevron-right text-xl ms-4"></i>
+                                        </button>
+                                    </Link>
                                 </>
                             ) : (
                                 <>
                                     <button
-                                        className="w-[250px] h-[60px] bg-[#000000] text-white rounded-xl pb-[8px] hover:bg-[#ff3232] disabled:bg-gray-300 disabled:cursor-not-allowed"
-                                        disabled
-                                    >
-                                        <i className="fa-brands fa-opencart text-5xl"></i>
-                                        <span className="text-2xl ms-2">
-                                            Thêm Tour
-                                        </span>
-                                        <i className="fa-solid fa-chevron-right text-xl ms-4"></i>
-                                    </button>
-                                    <button
-                                        className="w-[250px] h-[60px] bg-[#ff5c01] text-white rounded-xl pb-[8px] ms-5 hover:bg-[#ff3232] disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                        className="w-[350px] h-[60px] bg-[#ff5c01] text-white rounded-xl pb-[8px] ms-1 hover:bg-[#ff3232] disabled:bg-gray-300 disabled:cursor-not-allowed"
                                         disabled
                                     >
                                         <i className="fa-solid fa-plane-departure text-5xl"></i>
