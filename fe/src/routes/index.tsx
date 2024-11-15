@@ -28,6 +28,7 @@ import Blogcantho from "@/pages/(website)/Blog/Blogpage/Blogcantho";
 import DetailTour from "@/pages/(website)/Home/DetailTour";
 import UserEdit from "@/pages/admin/User/EditUser";
 import PayTour from "@/pages/(website)/payTour/PayTour";
+import TourList from "@/pages/(website)/Tour/TourList";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -41,7 +42,7 @@ const Router = () => {
                     <Route path="/dalat" element={<Dalat />} />
                     <Route path="/vungtau" element={<Vungtau />} />
                     <Route path="/cantho" element={<Cantho />} />
-                    <Route path="/tour" element={<Tour />} />
+                    <Route path="/tour" element={<TourList />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/blogsapa" element={<Blogsapa />} />
                     <Route path="/blogdalat" element={<Blogdalat />} />
