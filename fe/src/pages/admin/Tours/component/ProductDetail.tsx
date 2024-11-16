@@ -10,12 +10,11 @@ import {
   Col,
   Typography,
   Card,
-  Divider,
   Carousel,
   Space,
 } from "antd";
 import { getProductById } from "../services/productService";
-import { ShoppingCartOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -23,6 +22,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
     loadProduct();
@@ -39,12 +39,41 @@ const ProductDetail = () => {
     }
   };
 
+  const handleToggleDescription = () => {
+    setShowFullDescription(!showFullDescription);
+  };
+
+  const MAX_DESCRIPTION_LENGTH = 200; // Maximum length of description to show initially
+
   if (loading)
     return (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
         <Spin size="large" />
       </div>
     );
+
+  // Calculate the tour duration in days and nights
+  const calculateTourDuration = (startDate, endDate) => {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const diffTime = Math.abs(end - start);
+      const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+      const nights = days > 0 ? days - 1 : 0; // Number of nights is days - 1
+      return { days, nights };
+    }
+    return { days: 0, nights: 0 };
+  };
+
+  const { days, nights } = calculateTourDuration(
+    product.startDate,
+    product.endDate
+  );
+
+  const truncatedDescription =
+    product.description.length > MAX_DESCRIPTION_LENGTH
+      ? product.description.slice(0, MAX_DESCRIPTION_LENGTH)
+      : product.description;
 
   return (
     <div style={{ padding: "40px", maxWidth: "1200px", margin: "0 auto" }}>
@@ -79,7 +108,7 @@ const ProductDetail = () => {
             </Carousel>
           </Col>
 
-          {/* Right Section: product Details */}
+          {/* Right Section: Product Details */}
           <Col xs={24} md={14}>
             <Space
               direction="vertical"
@@ -88,7 +117,21 @@ const ProductDetail = () => {
             >
               <div>
                 <Title level={2}>{product.name}</Title>
-                <Paragraph type="secondary">{product.description}</Paragraph>
+                <Paragraph type="secondary">
+                  {showFullDescription
+                    ? product.description
+                    : `${truncatedDescription}...`}
+                </Paragraph>
+
+                {product.description.length > MAX_DESCRIPTION_LENGTH && (
+                  <Button
+                    type="link"
+                    onClick={handleToggleDescription}
+                    style={{ padding: 0 }}
+                  >
+                    {showFullDescription ? "Thu gọn" : "Xem thêm"}
+                  </Button>
+                )}
               </div>
 
               <Descriptions
@@ -107,10 +150,12 @@ const ProductDetail = () => {
                     : "Không có giảm giá"}
                 </Descriptions.Item>
                 <Descriptions.Item label="Địa điểm">
-                  {product.destination || "Không có địa điểm"}
+                  {product.location || "Không có địa điểm"}
                 </Descriptions.Item>
                 <Descriptions.Item label="Thời gian">
-                  {product.duration || "Không có thông tin"}
+                  {days && nights
+                    ? `${days} ngày ${nights} đêm`
+                    : "Không có thông tin"}
                 </Descriptions.Item>
                 <Descriptions.Item label="Ngày bắt đầu">
                   {product.startDate
@@ -126,18 +171,7 @@ const ProductDetail = () => {
                   {product.capacity || "Không có thông tin"}
                 </Descriptions.Item>
                 <Descriptions.Item label="Số chỗ còn lại">
-                  {product.availability || "Không có thông tin"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Tags">
-                  {product.tags && product.tags.length > 0 ? (
-                    product.tags.map((tag, index) => (
-                      <Tag key={index} color="blue">
-                        {tag}
-                      </Tag>
-                    ))
-                  ) : (
-                    <Tag color="red">Không có tags</Tag>
-                  )}
+                  {product.countInStock || "Không có thông tin"}
                 </Descriptions.Item>
                 <Descriptions.Item label="Tình trạng">
                   {product.status === "available" ? (
