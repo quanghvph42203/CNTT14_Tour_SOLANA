@@ -1,0 +1,110 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+/* #newscontainer .header {
+  margin-bottom: 40px;
+} */
+
+.box-containers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-items: center;
+  width: 100%;
+}
+
+.center-containers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* @media (max-width: 1024px) {
+  .box-containers {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .box-containers {
+    grid-template-columns: 1fr;
+  }
+} */
+
+.tour-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  margin: 10px;
+}
+
+.tour-card__image {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.nametour {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.tour-card p span {
+  color: gray;
+  text-decoration: line-through;
+  opacity: 0.7;
+  margin-right: 5px;
+}
+
+.price-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.tour-card .gia-khuyen-mai {
+  color: red;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.tour-card__btn {
+  background-color: #28a745; 
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.tour-card__btn:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+

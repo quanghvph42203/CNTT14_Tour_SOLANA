@@ -1,6 +1,6 @@
 export interface IProduct {
     // _id?: number | string
-    _id?: number;
+    _id?: number | string;
     name: string;
     category?: string;
     price: number;
@@ -12,6 +12,6 @@ export interface IProduct {
     featured?: boolean;
     countInStock?: number;
     location?: string;
-    status?: "available" | "sold out";
+    status?: "Còn chỗ" | "Hết chỗ";
     discount_price: number;
 }
