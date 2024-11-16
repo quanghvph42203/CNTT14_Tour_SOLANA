@@ -5,7 +5,7 @@ import "../../../styles/slider.css";
 
 const Banner = () => {
   return (
-    <div>
+    <div id="main">
       <div id="slider">
         <div className="banner-section">
           {/* Video component */}

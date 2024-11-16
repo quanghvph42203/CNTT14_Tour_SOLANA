@@ -4,6 +4,13 @@ import cors from "cors";
 import morgan from "morgan";
 import authRouter from "./routers/auth";
 import productRouter from "./routers/product";
+import userRouter from "./routers/user.js";
+import bookingRoutes from "./routers/booking.js";
+import paymentRoutes from "./routers/payment.js";
+import reviewRoutes from "./routers/review.js";
+import promotionRoutes from "./routers/promotion.js";
+import destinationRoutes from "./routers/destination.js"
+import notificationRoutes from "./routers/notification.js"
 const app = express();
 // middleware
 app.use(express.json());
@@ -18,4 +25,11 @@ connectDB(
 
 app.use("/api", authRouter);
 app.use("/api", productRouter);
+app.use("/api", userRouter);
+app.use("/api", bookingRoutes);
+app.use("/api", paymentRoutes);
+app.use("/api", reviewRoutes);
+app.use("/api", promotionRoutes);
+app.use("/api", destinationRoutes);
+app.use("/api", notificationRoutes);
 export const viteNodeApp = app;

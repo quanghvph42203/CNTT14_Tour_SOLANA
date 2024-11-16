@@ -107,10 +107,44 @@ const ProductDetail = () => {
                     : "Không có giảm giá"}
                 </Descriptions.Item>
                 <Descriptions.Item label="Địa điểm">
-                  {product.location}
+                  {product.destination || "Không có địa điểm"}
                 </Descriptions.Item>
-                <Descriptions.Item label="Số lượng chỗ">
-                  {product.countInStock}
+                <Descriptions.Item label="Thời gian">
+                  {product.duration || "Không có thông tin"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Ngày bắt đầu">
+                  {product.startDate
+                    ? new Date(product.startDate).toLocaleDateString()
+                    : "Không có ngày bắt đầu"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Ngày kết thúc">
+                  {product.endDate
+                    ? new Date(product.endDate).toLocaleDateString()
+                    : "Không có ngày kết thúc"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Sức chứa">
+                  {product.capacity || "Không có thông tin"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Số chỗ còn lại">
+                  {product.availability || "Không có thông tin"}
+                </Descriptions.Item>
+                <Descriptions.Item label="Tags">
+                  {product.tags && product.tags.length > 0 ? (
+                    product.tags.map((tag, index) => (
+                      <Tag key={index} color="blue">
+                        {tag}
+                      </Tag>
+                    ))
+                  ) : (
+                    <Tag color="red">Không có tags</Tag>
+                  )}
+                </Descriptions.Item>
+                <Descriptions.Item label="Tình trạng">
+                  {product.status === "available" ? (
+                    <Tag color="green">Có sẵn</Tag>
+                  ) : (
+                    <Tag color="red">Hết hàng</Tag>
+                  )}
                 </Descriptions.Item>
                 <Descriptions.Item label="Danh mục">
                   {product.category.length > 0 ? (
@@ -126,14 +160,6 @@ const ProductDetail = () => {
               </Descriptions>
 
               <div style={{ display: "flex", gap: 16 }}>
-                <Button
-                  type="primary"
-                  size="large"
-                  icon={<ShoppingCartOutlined />}
-                  style={{ flex: 1 }}
-                >
-                  Thêm vào giỏ hàng
-                </Button>
                 <Link to={`/admin/products/${product._id}/edit`}>
                   <Button
                     type="default"

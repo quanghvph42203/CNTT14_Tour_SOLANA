@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Table, Button, Modal, message, Space, Card } from "antd";
+import { Table, Button, Modal, message, Space, Card, Spin } from "antd";
 import { deleteProduct, getAllProducts } from "./services/productService";
 import {
   EditOutlined,
@@ -25,6 +25,7 @@ const ProductList = () => {
     } catch (error) {
       console.error("Failed to load products", error);
       message.error("Tải danh sách sản phẩm thất bại");
+      setLoading(false);
     }
   };
 
@@ -140,7 +141,13 @@ const ProductList = () => {
     },
   ];
 
-  if (loading) return <p>Đang tải...</p>;
+  if (loading)
+    return (
+      <Spin
+        size="large"
+        style={{ display: "block", textAlign: "center", marginTop: "20px" }}
+      />
+    );
 
   return (
     <Card

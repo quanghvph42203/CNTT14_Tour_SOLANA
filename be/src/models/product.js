@@ -1,3 +1,4 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
@@ -9,20 +10,27 @@ const productSchema = new mongoose.Schema(
       lowercase: true,
       index: true,
     },
+    destination: { type: String  }, //điểm đến
+    duration: { type: String }, // Thời gian của tour (ví dụ: 3 ngày 2 đêm)
     slug: {
       type: String,
-      unique: true,
+      
       index: true,
     },
+    startDate: { type: Date },
+
+    endDate: { type: Date },
+    capacity: { type: Number }, //số lượng khách tối đa
+    availability: { type: Number }, //số chỗ còn trống
     category: [
       {
         type: String,
-        required: true,
+        
       },
     ],
     price: {
       type: Number,
-      required: true,
+      
       default: 0,
     },
     discount_price: {
@@ -55,6 +63,18 @@ const productSchema = new mongoose.Schema(
       type: String, // Location of the product (e.g., where it’s sold or made)
       required: false,
     },
+    image: {
+      type: String,
+      default:
+        "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
+    },
+
+    status: {
+      type: String,
+      enum: ["available", "sold out"],
+      default: "available",
+    },
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true, versionKey: false }
 );

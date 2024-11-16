@@ -8,7 +8,6 @@ const index = () => {
   return (
     <div>
       <Header />
-      <Banner />
       <Outlet />
       <Footer />
     </div>

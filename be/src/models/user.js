@@ -26,8 +26,12 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
+      default:
+        "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
     },
+    bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }], // Danh sách mã đặt tour liên kết đến các tour mà người dùng đã đặt 
+
+  
   },
   { timestamps: true }
 );
