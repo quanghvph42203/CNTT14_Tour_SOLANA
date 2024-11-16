@@ -25,6 +25,7 @@ import TourList from "@/pages/(website)/Tour/TourList";
 import DashboardPage from "@/pages/admin/Tours/DashboardPage";
 import AddOrEditProduct from "@/pages/admin/Tours/component/AddOrEditProduct";
 import ProductDetail from "@/pages/admin/Tours/component/ProductDetail";
+import SupportManagement from "@/pages/admin/Support";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -57,6 +58,8 @@ const Router = () => {
           <Route path="products/:id" element={<ProductDetail />} />
           <Route path="products/:id/edit" element={<AddOrEditProduct />} />
           <Route path="users" element={<Users />} />
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="support" element={<SupportManagement />} />
         </Route>
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
