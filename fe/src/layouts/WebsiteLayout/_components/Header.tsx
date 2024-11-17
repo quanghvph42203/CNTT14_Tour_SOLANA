@@ -54,30 +54,6 @@ const Header = () => {
           </li>
         </ul>
 
-        <div
-          ref={cartRef}
-          className="cart-icon"
-          onClick={() => setCartOpen(!cartOpen)}
-        >
-          <i className="fa-solid fa-cart-shopping"></i>
-          <span className="cart-count">{cartItems.length}</span>
-        </div>
-
-        {cartOpen && (
-          <div className="cart-dropdown">
-            {cartItems.length > 0 ? (
-              cartItems.map((item, index) => (
-                <div key={index} className="cart-item">
-                  <p>{item.name}</p>
-                  <p>{item.price} VND</p>
-                </div>
-              ))
-            ) : (
-              <p>Giỏ hàng trống</p>
-            )}
-          </div>
-        )}
-
         {users ? (
           <>
             <div
