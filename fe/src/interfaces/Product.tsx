@@ -14,4 +14,8 @@ export interface IProduct {
     location?: string;
     status?: "Còn chỗ" | "Hết chỗ";
     discount_price: number;
+    rating?: {                          
+        averageRating: number;           
+        totalRatings: number;            
+    };
 }

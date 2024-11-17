@@ -37,19 +37,29 @@ const TourList: React.FC = () => {
   const TourCard: React.FC<IProduct> = ({
     _id,
     name,
-    description,
+    location,
     price,
     discount_price,
-    image,
-    countInStock,
+    image, 
   }) => {
-    const truncateText = (text: string, wordLimit: number) => {
-      const words = text.split(" ");
-      if (words.length > wordLimit) {
-        return words.slice(0, wordLimit).join(" ") + "...";
-      }
-      return text;
+  
+    const renderStars = () => {
+      const maxStars = 5;
+      const fixedStars = 4;
+      return (
+        <div className="stars">
+          {Array.from({ length: maxStars }, (_, index) => (
+            <span
+              key={index}
+              style={{ color: index < fixedStars ? "#218838" : "#e4e5e9" }}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+      );
     };
+    
   
     return (
       <div className="tour-card" key={_id}>
@@ -58,24 +68,22 @@ const TourList: React.FC = () => {
         ) : (
           <p>Không có hình ảnh</p>
         )}
-        <h3 className="nametour">{name || "Tên không xác định"}</h3>
-        <p>{description ? truncateText(description, 20) : "Không có mô tả"}</p>
-  
+        <h3 className="nametour">{location || "Địa điểm không xác định"}</h3>
+        <p>{name}</p>
+        {renderStars()}
+
         <div className="price-container">
-          <p>
-            Giá:{" "}
-            <span style={{ textDecoration: discount_price ? "line-through" : "none" }}>
-              {price?.toLocaleString() || "0"} VND
-            </span>
-          </p>
           {discount_price && (
             <p className="gia-khuyen-mai">{discount_price?.toLocaleString()} VND</p>
           )}
+          <p>
+            <span
+              style={{ textDecoration: discount_price ? "line-through" : "none" }}
+            >
+              {price?.toLocaleString() || "0"} VND
+            </span>
+          </p>
         </div>
-  
-        <p>
-          Trạng thái: {countInStock !== 0 ? `Còn ${countInStock} chỗ` : "Hết chỗ"}
-        </p>
 
         <Link className="tour-card__btn" to={`/detail-tour/${_id}`}>
           Đặt ngay
@@ -83,6 +91,7 @@ const TourList: React.FC = () => {
       </div>
     );
   };
+  
   
 
   

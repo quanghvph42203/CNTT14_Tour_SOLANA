@@ -9,10 +9,6 @@
   padding: 20px;
 }
 
-/* #newscontainer .header {
-  margin-bottom: 40px;
-} */
-
 .box-containers {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -30,18 +26,6 @@
   font-weight: bold;
 }
 
-/* @media (max-width: 1024px) {
-  .box-containers {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 600px) {
-  .box-containers {
-    grid-template-columns: 1fr;
-  }
-} */
-
 .tour-card {
   border: 1px solid #ddd;
   padding: 10px;
@@ -49,9 +33,7 @@
   width: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content: left;
   gap: 10px;
   margin: 10px;
 }
@@ -66,7 +48,7 @@
 
 .nametour {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.8rem;
   margin-bottom: 10px;
 }
 
@@ -79,14 +61,11 @@
 
 .price-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
   font-size: 1rem;
 }
 
 .tour-card .gia-khuyen-mai {
-  color: red;
   font-weight: bold;
   font-size: 1.1rem;
 }
@@ -108,3 +87,8 @@
   transform: scale(1.05);
 }
 
+.stars span {
+  font-size: 2rem;
+  margin: 0 2px; 
+  color: #218838; 
+}
