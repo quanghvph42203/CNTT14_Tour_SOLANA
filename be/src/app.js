@@ -9,9 +9,10 @@ import bookingRoutes from "./routers/booking.js";
 import paymentRoutes from "./routers/payment.js";
 import reviewRoutes from "./routers/review.js";
 import promotionRoutes from "./routers/promotion.js";
-import destinationRoutes from "./routers/destination.js"
-import notificationRoutes from "./routers/notification.js"
-import countryRoutes from "./routers/country.js"
+import destinationRoutes from "./routers/destination.js";
+import notificationRoutes from "./routers/notification.js";
+import support from "./routers/support.js";
+import countryRoutes from "./routers/country.js";
 const app = express();
 // middleware
 app.use(express.json());
@@ -33,6 +34,7 @@ app.use("/api", reviewRoutes);
 app.use("/api", promotionRoutes);
 app.use("/api", destinationRoutes);
 app.use("/api", notificationRoutes);
-app.use("/api",countryRoutes);
+app.use("/api", support);
+app.use("/api", countryRoutes);
 // app.use("/api", sendMailRoutes);
 export const viteNodeApp = app;

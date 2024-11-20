@@ -7,8 +7,6 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      lowercase: true,
-      index: true,
     },
     destination: { type: String }, //điểm đến
     slug: {
@@ -72,7 +70,6 @@ const productSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Country",
-      
       },
     ],
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
