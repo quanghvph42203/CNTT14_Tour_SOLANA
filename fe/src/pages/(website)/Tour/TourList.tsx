@@ -1,53 +1,118 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { IProduct } from '@/common/types/product';
-import axios from 'axios';
-import TourCard from './Tour';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { IProduct } from "@/interfaces/Product";
+import "../../../styles/tourList.css"; 
+import instance from "@/configs/axios"; 
 
 const TourList: React.FC = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const [tours, setTours] = useState<IProduct[]>([]); 
+  const [loading, setLoading] = useState<boolean>(true); 
+  const [error, setError] = useState<string>(""); 
 
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/products');
-        let data = response.data;
-        if (!Array.isArray(data)) {
-          if (data && data.products) {
-            data = data.products;
-          } else {
-            data = [];
-          }
-        }
-        setProducts(data);
+        const response = await instance.get("/products");
+        console.log("API Response:", response.data);
+  
+        
+        const data = Array.isArray(response.data.data) ? response.data.data : [];
+        console.log("Formatted Data:", data); 
+  
+        setTours(data); 
       } catch (err: any) {
-        setError(err?.message || 'Lỗi khi tải dữ liệu');
+        console.error("Error fetching tours:", err);
+        setError(err.message || "Lỗi khi tải dữ liệu");
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchTours();
   }, []);
+  
+  
 
+  
+  const TourCard: React.FC<IProduct> = ({
+    _id,
+    name,
+    location,
+    price,
+    discount_price,
+    image, 
+  }) => {
+  
+    const renderStars = () => {
+      const maxStars = 5;
+      const fixedStars = 4;
+      return (
+        <div className="stars">
+          {Array.from({ length: maxStars }, (_, index) => (
+            <span
+              key={index}
+              style={{ color: index < fixedStars ? "#218838" : "#e4e5e9" }}
+            >
+              ★
+            </span>
+          ))}
+        </div>
+      );
+    };
+    
+  
+    return (
+      <div className="tour-card" key={_id}>
+        {image ? (
+          <img className="tour-card__image" src={image} alt={name} />
+        ) : (
+          <p>Không có hình ảnh</p>
+        )}
+        <h3 className="nametour">{location || "Địa điểm không xác định"}</h3>
+        <p>{name}</p>
+        {renderStars()}
+
+        <div className="price-container">
+          {discount_price && (
+            <p className="gia-khuyen-mai">{discount_price?.toLocaleString()} VND</p>
+          )}
+          <p>
+            <span
+              style={{ textDecoration: discount_price ? "line-through" : "none" }}
+            >
+              {price?.toLocaleString() || "0"} VND
+            </span>
+          </p>
+        </div>
+
+        <Link className="tour-card__btn" to={`/detail-tour/${_id}`}>
+          Đặt ngay
+        </Link>
+      </div>
+    );
+  };
+  
+  
+
+  
   if (loading) {
     return (
-      <div className="center-container">
+      <div className="center-containers">
         <p>Đang tải dữ liệu...</p>
       </div>
     );
   }
 
+  
   if (error) {
     return (
-      <div className="center-container">
+      <div className="center-containers">
         <p>{error}</p>
       </div>
     );
   }
 
+ 
   return (
     <div id="main">
       <div id="newscontainer">
@@ -71,18 +136,11 @@ const TourList: React.FC = () => {
       </div>
 
       <div className="packages">
-        <div className="box-container">
-          {products.length > 0 ? (
-            products.map((tour) => (
-              <div key={tour._id || tour.name} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <TourCard tour={tour} />
-                <Link className="btn" to={`/tour/${tour._id}`}>Đặt ngay</Link>
-              </div>
-            ))
+        <div className="box-containers">
+          {tours.length > 0 ? (
+            tours.map((tour) => <TourCard key={tour._id} {...tour} />)
           ) : (
-            <div className="center-container">
-              <p>Không có tour nào để hiển thị.</p>
-            </div>
+            <p>Không có gói du lịch nào!</p>
           )}
         </div>
       </div>

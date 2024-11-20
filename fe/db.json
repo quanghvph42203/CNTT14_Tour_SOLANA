@@ -3,6 +3,7 @@
     {
       "name": "Sản phẩm 1 update 1",
       "price": "100",
+      "image":"https://picsum.photos/",
       "description": "mô tả sản phẩm",
       "id": 1
     },
@@ -10,27 +11,32 @@
       "name": "Sản phẩm 2 update",
       "price": "13123",
       "description": "1231",
-      "id": 2
+      "id": 2,
+      "image":"https://picsum.photos/"
     },
     {
+      "image":"https://picsum.photos/",
       "name": "1231",
       "price": "31231",
       "description": "131",
       "id": 3
     },
     {
+      "image":"https://picsum.photos/",
       "name": "dsad",
       "price": "adsad",
       "description": "adas",
       "id": 4
     },
     {
+      "image":"https://picsum.photos/",
       "name": "1231",
       "price": "321312",
       "description": "312",
       "id": 5
     },
-    {
+    { 
+      "image":"https://picsum.photos/",
       "name": "1231",
       "price": "321312",
       "description": "312",

@@ -291,12 +291,12 @@ const ProductForm = ({ product, onSubmit }) => {
         />
       </Form.Item>
 
-      <Form.Item label="Trạng thái" name="status" valuePropName="checked">
+      {/* <Form.Item label="Trạng thái" name="status" valuePropName="checked">
         <Switch
           checked={formData.status}
           onChange={(checked) => handleChange("status", checked)}
         />
-      </Form.Item>
+      </Form.Item> */}
 
       <Form.Item style={{ textAlign: "center" }}>
         <Button
