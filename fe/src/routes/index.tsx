@@ -26,6 +26,8 @@ import DashboardPage from "@/pages/admin/Tours/DashboardPage";
 import AddOrEditProduct from "@/pages/admin/Tours/component/AddOrEditProduct";
 import ProductDetail from "@/pages/admin/Tours/component/ProductDetail";
 import SupportManagement from "@/pages/admin/Support";
+import BlogList from "@/pages/(website)/Blog/BlogList";
+import BlogDetail from "@/pages/(website)/Blog/BlogDetail";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -40,7 +42,8 @@ const Router = () => {
           <Route path="/vungtau" element={<Vungtau />} />
           <Route path="/cantho" element={<Cantho />} />
           <Route path="/tour" element={<TourList />} />
-          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
           <Route path="/blogsapa" element={<Blogsapa />} />
           <Route path="/blogdalat" element={<Blogdalat />} />
           <Route path="/blogvungtau" element={<Blogvungtau />} />

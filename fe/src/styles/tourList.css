@@ -40,7 +40,7 @@
 
 .tour-card__image {
   width: 100%;
-  height: auto;
+  height: 300px;
   max-height: 200px;
   border-radius: 5px;
   object-fit: cover;
