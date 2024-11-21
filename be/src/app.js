@@ -13,6 +13,7 @@ import destinationRoutes from "./routers/destination.js";
 import notificationRoutes from "./routers/notification.js";
 import support from "./routers/support.js";
 import countryRoutes from "./routers/country.js";
+import blogRoutes from "./routers/blog.js";
 const app = express();
 // middleware
 app.use(express.json());
@@ -36,5 +37,6 @@ app.use("/api", destinationRoutes);
 app.use("/api", notificationRoutes);
 app.use("/api", support);
 app.use("/api", countryRoutes);
+app.use("/api", blogRoutes);
 // app.use("/api", sendMailRoutes);
 export const viteNodeApp = app;
