@@ -35,11 +35,10 @@ const ProductDetail = () => {
       const { data } = await getProductById(id);
       setProduct(data);
 
-      // Fetch category after product is loaded
       const categoryData = await getCategoryById(data.categoryId);
       console.log(categoryData);
 
-      setCategory(categoryData.data); // Store category data in state
+      setCategory(categoryData.data);
     } catch (error) {
       console.error("Failed to load product", error);
     } finally {
@@ -51,7 +50,7 @@ const ProductDetail = () => {
     setShowFullDescription(!showFullDescription);
   };
 
-  const MAX_DESCRIPTION_LENGTH = 200; // Maximum length of description to show initially
+  const MAX_DESCRIPTION_LENGTH = 200;
 
   if (loading)
     return (
@@ -60,7 +59,6 @@ const ProductDetail = () => {
       </div>
     );
 
-  // Calculate the tour duration in days and nights
   const calculateTourDuration = (startDate, endDate) => {
     if (startDate && endDate) {
       const start = new Date(startDate);
@@ -94,7 +92,6 @@ const ProductDetail = () => {
         }}
       >
         <Row gutter={[32, 32]}>
-          {/* Left Section: Carousel for Image Gallery */}
           <Col xs={24} md={10}>
             <Carousel autoplay>
               {product.gallery.length > 0 ? (
@@ -116,7 +113,6 @@ const ProductDetail = () => {
             </Carousel>
           </Col>
 
-          {/* Right Section: Product Details */}
           <Col xs={24} md={14}>
             <Space
               direction="vertical"
@@ -190,7 +186,7 @@ const ProductDetail = () => {
                 </Descriptions.Item>
                 <Descriptions.Item label="Danh mục">
                   {category ? (
-                    <Tag color="blue">{category.name}</Tag> // Display category name here
+                    <Tag color="blue">{category.name}</Tag>
                   ) : (
                     <Tag color="red">Không có danh mục</Tag>
                   )}

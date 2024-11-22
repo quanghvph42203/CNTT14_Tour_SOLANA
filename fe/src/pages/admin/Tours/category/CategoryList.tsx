@@ -10,37 +10,35 @@ import {
 import { deleteCategory, getAllCategories } from "./services/categpryService";
 
 const ProductList = () => {
-  const [category, setCategory] = useState([]); // State for categories
-  const [loading, setLoading] = useState(true); // Loading state
+  const [category, setCategory] = useState([]); 
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    loadCategory(); // Load categories when component mounts
+    loadCategory(); 
   }, []);
 
-  // Function to load categories from API
   const loadCategory = async () => {
     try {
-      const { data } = await getAllCategories(); // Fetch categories from API
-      console.log(data); // Log response for debugging
-      setCategory(data); // Adjust this if your response structure is different
-      setLoading(false); // Set loading to false after data is fetched
+      const { data } = await getAllCategories(); 
+      console.log(data); 
+      setCategory(data); 
+      setLoading(false); 
     } catch (error) {
       console.error("Failed to load category", error);
       message.error("Tải danh sách sản phẩm thất bại");
-      setLoading(false); // Set loading to false if there's an error
+      setLoading(false); 
     }
   };
 
-  // Function to handle deletion of a category
   const handleDelete = async (id) => {
     Modal.confirm({
       title: "Xóa sản phẩm",
       content: "Bạn có chắc chắn muốn xóa sản phẩm này?",
       onOk: async () => {
         try {
-          await deleteCategory(id); // Call API to delete category
+          await deleteCategory(id); 
           message.success("Sản phẩm đã được xóa thành công");
-          loadCategory(); // Reload categories after deletion
+          loadCategory(); 
         } catch (error) {
           message.error("Xóa sản phẩm thất bại");
         }
@@ -48,7 +46,7 @@ const ProductList = () => {
     });
   };
 
-  // Table columns
+
   const columns = [
     {
       title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Địa điểm</h2>,
@@ -118,7 +116,6 @@ const ProductList = () => {
     },
   ];
 
-  // If loading, show a loading spinner
   if (loading)
     return (
       <Spin
@@ -148,7 +145,7 @@ const ProductList = () => {
       }}
     >
       <Table
-        dataSource={category} // Pass the fetched category data to Table
+        dataSource={category} 
         columns={columns}
         rowKey="_id"
         pagination={{ pageSize: 30 }}

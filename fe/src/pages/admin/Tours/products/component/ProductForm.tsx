@@ -19,13 +19,13 @@ import instance from "@/configs/axios";
 const ProductForm = ({ product, onSubmit }) => {
   const [formData, setFormData] = useState(product || { gallery: [] });
   const { id } = useParams();
-  const [categories, setCategories] = useState([]); // Lưu danh mục
+  const [categories, setCategories] = useState([]); 
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await instance.get("/category"); // Đường dẫn API
-        setCategories(response.data); // Lưu danh sách danh mục
+        const response = await instance.get("/category"); 
+        setCategories(response.data); 
       } catch (error) {
         console.error("Lỗi khi tải danh mục:", error);
       }
@@ -38,7 +38,7 @@ const ProductForm = ({ product, onSubmit }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Ngăn hành động mặc định
+    e.preventDefault(); 
     onSubmit(formData);
   };
 
@@ -71,7 +71,7 @@ const ProductForm = ({ product, onSubmit }) => {
               required
               placeholder="Nhập tên sản phẩm"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px", 
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -89,7 +89,7 @@ const ProductForm = ({ product, onSubmit }) => {
               type="number"
               placeholder="Nhập giá sản phẩm"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -106,7 +106,7 @@ const ProductForm = ({ product, onSubmit }) => {
               type="number"
               placeholder="Nhập giá giảm"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -122,7 +122,7 @@ const ProductForm = ({ product, onSubmit }) => {
               onChange={(e) => handleChange("location", e.target.value)}
               placeholder="Nhập điểm đến"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -141,10 +141,10 @@ const ProductForm = ({ product, onSubmit }) => {
                     {...params}
                     fullWidth
                     sx={{
-                      fontSize: "30px", // Increase font size
+                      fontSize: "30px",
                       borderRadius: "8px",
                       boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px", // Set custom width
+                      maxWidth: "200px", 
                     }}
                   />
                 )}
@@ -162,10 +162,10 @@ const ProductForm = ({ product, onSubmit }) => {
                     {...params}
                     fullWidth
                     sx={{
-                      fontSize: "30px", // Increase font size
+                      fontSize: "30px",
                       borderRadius: "8px",
                       boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px", // Set custom width
+                      maxWidth: "200px", 
                     }}
                   />
                 )}
@@ -205,7 +205,7 @@ const ProductForm = ({ product, onSubmit }) => {
               type="number"
               placeholder="Nhập số lượng khách tối đa"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -222,7 +222,7 @@ const ProductForm = ({ product, onSubmit }) => {
               type="number"
               placeholder="Nhập số chỗ còn trống"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -238,7 +238,7 @@ const ProductForm = ({ product, onSubmit }) => {
               onChange={(e) => handleChange("image", e.target.value)}
               placeholder="Nhập URL của hình ảnh"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -254,7 +254,7 @@ const ProductForm = ({ product, onSubmit }) => {
               onChange={handleGalleryChange}
               placeholder="Nhập các URL ảnh, ngăn cách bằng dấu phẩy"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -272,7 +272,7 @@ const ProductForm = ({ product, onSubmit }) => {
               rows={4}
               placeholder="Nhập mô tả sản phẩm"
               sx={{
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -287,7 +287,7 @@ const ProductForm = ({ product, onSubmit }) => {
               sx={{
                 width: "100%",
                 borderRadius: "8px",
-                fontSize: "30px", // Increase font size
+                fontSize: "30px",
                 boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
               }}
             >

@@ -9,7 +9,7 @@ const CategoryForm = ({ category, onSubmit }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Ngừng hành động mặc định của form
+    e.preventDefault(); 
     onSubmit(formData);
   };
 
@@ -36,7 +36,7 @@ const CategoryForm = ({ category, onSubmit }) => {
               required
               placeholder="Nhập tên danh mục"
               sx={{
-                fontSize: "18px", // Tăng kích thước font chữ
+                fontSize: "18px", 
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -53,7 +53,7 @@ const CategoryForm = ({ category, onSubmit }) => {
               rows={4}
               placeholder="Nhập mô tả danh mục"
               sx={{
-                fontSize: "18px", // Tăng kích thước font chữ
+                fontSize: "18px", 
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -68,7 +68,7 @@ const CategoryForm = ({ category, onSubmit }) => {
               sx={{
                 width: "100%",
                 borderRadius: "8px",
-                fontSize: "18px", // Tăng kích thước font chữ
+                fontSize: "18px", 
                 boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
               }}
             >
