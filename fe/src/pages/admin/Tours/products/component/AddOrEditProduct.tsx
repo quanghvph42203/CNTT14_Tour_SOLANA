@@ -6,6 +6,7 @@ import {
   getProductById,
   updateProduct,
 } from "../services/productService";
+import { message } from "antd";
 
 const AddOrEditProduct = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const AddOrEditProduct = () => {
     countInStock: 0,
     gallery: [],
     location: "",
+    categoryId: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -38,21 +40,21 @@ const AddOrEditProduct = () => {
   };
 
   const handleSubmit = async (formData) => {
-    if (id) {
-      await updateProduct(id, formData);
-    } else {
-      await addProduct(formData);
-      setProduct({
-        name: "",
-        price: 0,
-        description: "",
-        discount_price: 0,
-        countInStock: 0,
-        gallery: [],
-        location: "",
-      });
+    setLoading(true);
+    try {
+      if (id) {
+        await updateProduct(id, formData);
+        message.success("Sửa tour thành công");
+      } else {
+        await addProduct(formData);
+        message.success("Thêm tour thành công");
+      }
+      navigate("/admin/products");
+    } catch (error) {
+      console.error("Error submitting product:", error);
+    } finally {
+      setLoading(false);
     }
-    navigate("/admin/products");
   };
 
   if (loading) return <div>Loading...</div>;

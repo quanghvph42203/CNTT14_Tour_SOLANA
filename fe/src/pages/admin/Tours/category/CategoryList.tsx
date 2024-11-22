@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Table, Button, Modal, message, Space, Card, Spin } from "antd";
-import { deleteProduct, getAllProducts } from "./services/productService";
 import {
   EditOutlined,
   EyeOutlined,
   DeleteOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { deleteCategory, getAllCategories } from "./services/categpryService";
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState([]); 
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    loadProducts();
+    loadCategory(); 
   }, []);
 
-  const loadProducts = async () => {
+  const loadCategory = async () => {
     try {
-      const { data } = await getAllProducts();
-      setProducts(data.data);
-      setLoading(false);
+      const { data } = await getAllCategories(); 
+      console.log(data); 
+      setCategory(data); 
+      setLoading(false); 
     } catch (error) {
-      console.error("Failed to load products", error);
+      console.error("Failed to load category", error);
       message.error("Tải danh sách sản phẩm thất bại");
-      setLoading(false);
+      setLoading(false); 
     }
   };
 
@@ -35,9 +36,9 @@ const ProductList = () => {
       content: "Bạn có chắc chắn muốn xóa sản phẩm này?",
       onOk: async () => {
         try {
-          await deleteProduct(id);
+          await deleteCategory(id); 
           message.success("Sản phẩm đã được xóa thành công");
-          loadProducts();
+          loadCategory(); 
         } catch (error) {
           message.error("Xóa sản phẩm thất bại");
         }
@@ -45,15 +46,16 @@ const ProductList = () => {
     });
   };
 
+
   const columns = [
     {
-      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Tên Tour</h2>,
+      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Địa điểm</h2>,
       dataIndex: "name",
       key: "name",
       align: "center",
       render: (text, record) => (
         <Link
-          to={`/products/${record._id}`}
+          to={`/category/${record._id}`}
           style={{ fontWeight: "bold", color: "#1890ff" }}
         >
           {text}
@@ -61,45 +63,18 @@ const ProductList = () => {
       ),
     },
     {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Giá Tour (VND)</h2>
-      ),
-      dataIndex: "price",
-      key: "price",
+      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Mô tả</h2>,
+      dataIndex: "description",
+      key: "description",
       align: "center",
-      render: (price) => <span>{price.toLocaleString()}</span>,
-    },
-    {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Giảm giá (VND)</h2>
+      render: (text, record) => (
+        <Link
+          to={`/category/${record._id}`}
+          style={{ fontWeight: "bold", color: "#1890ff" }}
+        >
+          {text}
+        </Link>
       ),
-      dataIndex: "discount_price",
-      key: "discount_price",
-      align: "center",
-      render: (discount) => (
-        <span>{discount ? discount.toLocaleString() : "Không có"}</span>
-      ),
-    },
-    {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>
-          Số lượng chỗ trống
-        </h2>
-      ),
-      dataIndex: "countInStock",
-      key: "countInStock",
-      align: "center",
-      render: (count) => (
-        <span style={{ color: count > 0 ? "green" : "red" }}>
-          {count > 0 ? `${count} chỗ` : "Hết chỗ"}
-        </span>
-      ),
-    },
-    {
-      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Địa điểm</h2>,
-      dataIndex: "location",
-      key: "location",
-      align: "center",
     },
     {
       title: (
@@ -109,7 +84,7 @@ const ProductList = () => {
       align: "center",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/products/${record._id}`}>
+          <Link to={`/admin/category/${record._id}`}>
             <Button
               icon={<EyeOutlined />}
               style={{ padding: "10px" }}
@@ -118,7 +93,7 @@ const ProductList = () => {
               Chi tiết
             </Button>
           </Link>
-          <Link to={`/admin/products/${record._id}/edit`}>
+          <Link to={`/admin/category/${record._id}/edit`}>
             <Button
               icon={<EditOutlined />}
               style={{ padding: "10px", color: "black" }}
@@ -153,7 +128,7 @@ const ProductList = () => {
     <Card
       title="Danh sách sản phẩm"
       extra={
-        <Link to="/admin/products/add">
+        <Link to="/admin/category/add">
           <Button
             type="primary"
             icon={<PlusOutlined />}
@@ -170,7 +145,7 @@ const ProductList = () => {
       }}
     >
       <Table
-        dataSource={products}
+        dataSource={category} 
         columns={columns}
         rowKey="_id"
         pagination={{ pageSize: 30 }}

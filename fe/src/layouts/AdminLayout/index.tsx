@@ -45,9 +45,13 @@ const LayoutAdmin = () => {
                 <Menu.Item key="3" icon={<ProfileOutlined />}>
                   <Link to={`products`}> Quản lý tour</Link>
                 </Menu.Item>
+                <Menu.Item key="6" icon={<ProfileOutlined />}>
+                  <Link to={`category`}>Quản lý Danh mục</Link>
+                </Menu.Item>
                 <Menu.Item key="5" icon={<ProfileOutlined />}>
                   <Link to={`support`}>Quản lý Hỗ trợ</Link>
                 </Menu.Item>
+
                 <Menu.Item key="4" icon={<ProfileOutlined />}>
                   <Link to={`/`}> Về Trang Chủ</Link>
                 </Menu.Item>
