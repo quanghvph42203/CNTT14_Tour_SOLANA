@@ -10,23 +10,23 @@ import {
 import { deleteCategory, getAllCategories } from "./services/categpryService";
 
 const ProductList = () => {
-  const [category, setCategory] = useState([]); 
-  const [loading, setLoading] = useState(true); 
+  const [category, setCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadCategory(); 
+    loadCategory();
   }, []);
 
   const loadCategory = async () => {
     try {
-      const { data } = await getAllCategories(); 
-      console.log(data); 
-      setCategory(data); 
-      setLoading(false); 
+      const { data } = await getAllCategories();
+      console.log(data);
+      setCategory(data);
+      setLoading(false);
     } catch (error) {
       console.error("Failed to load category", error);
       message.error("Tải danh sách sản phẩm thất bại");
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -36,16 +36,15 @@ const ProductList = () => {
       content: "Bạn có chắc chắn muốn xóa sản phẩm này?",
       onOk: async () => {
         try {
-          await deleteCategory(id); 
+          await deleteCategory(id);
           message.success("Sản phẩm đã được xóa thành công");
-          loadCategory(); 
+          loadCategory();
         } catch (error) {
           message.error("Xóa sản phẩm thất bại");
         }
       },
     });
   };
-
 
   const columns = [
     {
@@ -84,15 +83,6 @@ const ProductList = () => {
       align: "center",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/category/${record._id}`}>
-            <Button
-              icon={<EyeOutlined />}
-              style={{ padding: "10px" }}
-              type="default"
-            >
-              Chi tiết
-            </Button>
-          </Link>
           <Link to={`/admin/category/${record._id}/edit`}>
             <Button
               icon={<EditOutlined />}
@@ -145,7 +135,7 @@ const ProductList = () => {
       }}
     >
       <Table
-        dataSource={category} 
+        dataSource={category}
         columns={columns}
         rowKey="_id"
         pagination={{ pageSize: 30 }}
