@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Table, Button, Modal, message, Space, Card, Spin } from "antd";
-import { deleteProduct, getAllProducts } from "./services/productService";
 import {
   EditOutlined,
   EyeOutlined,
   DeleteOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
+import { deleteCategory, getAllCategories } from "./services/categpryService";
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState([]); // State for categories
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
-    loadProducts();
+    loadCategory(); // Load categories when component mounts
   }, []);
 
-  const loadProducts = async () => {
+  // Function to load categories from API
+  const loadCategory = async () => {
     try {
-      const { data } = await getAllProducts();
-      setProducts(data.data);
-      setLoading(false);
+      const { data } = await getAllCategories(); // Fetch categories from API
+      console.log(data); // Log response for debugging
+      setCategory(data); // Adjust this if your response structure is different
+      setLoading(false); // Set loading to false after data is fetched
     } catch (error) {
-      console.error("Failed to load products", error);
+      console.error("Failed to load category", error);
       message.error("Tải danh sách sản phẩm thất bại");
-      setLoading(false);
+      setLoading(false); // Set loading to false if there's an error
     }
   };
 
+  // Function to handle deletion of a category
   const handleDelete = async (id) => {
     Modal.confirm({
       title: "Xóa sản phẩm",
       content: "Bạn có chắc chắn muốn xóa sản phẩm này?",
       onOk: async () => {
         try {
-          await deleteProduct(id);
+          await deleteCategory(id); // Call API to delete category
           message.success("Sản phẩm đã được xóa thành công");
-          loadProducts();
+          loadCategory(); // Reload categories after deletion
         } catch (error) {
           message.error("Xóa sản phẩm thất bại");
         }
@@ -45,15 +48,16 @@ const ProductList = () => {
     });
   };
 
+  // Table columns
   const columns = [
     {
-      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Tên Tour</h2>,
+      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Địa điểm</h2>,
       dataIndex: "name",
       key: "name",
       align: "center",
       render: (text, record) => (
         <Link
-          to={`/products/${record._id}`}
+          to={`/category/${record._id}`}
           style={{ fontWeight: "bold", color: "#1890ff" }}
         >
           {text}
@@ -61,45 +65,18 @@ const ProductList = () => {
       ),
     },
     {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Giá Tour (VND)</h2>
-      ),
-      dataIndex: "price",
-      key: "price",
+      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Mô tả</h2>,
+      dataIndex: "description",
+      key: "description",
       align: "center",
-      render: (price) => <span>{price.toLocaleString()}</span>,
-    },
-    {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Giảm giá (VND)</h2>
+      render: (text, record) => (
+        <Link
+          to={`/category/${record._id}`}
+          style={{ fontWeight: "bold", color: "#1890ff" }}
+        >
+          {text}
+        </Link>
       ),
-      dataIndex: "discount_price",
-      key: "discount_price",
-      align: "center",
-      render: (discount) => (
-        <span>{discount ? discount.toLocaleString() : "Không có"}</span>
-      ),
-    },
-    {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>
-          Số lượng chỗ trống
-        </h2>
-      ),
-      dataIndex: "countInStock",
-      key: "countInStock",
-      align: "center",
-      render: (count) => (
-        <span style={{ color: count > 0 ? "green" : "red" }}>
-          {count > 0 ? `${count} chỗ` : "Hết chỗ"}
-        </span>
-      ),
-    },
-    {
-      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Địa điểm</h2>,
-      dataIndex: "location",
-      key: "location",
-      align: "center",
     },
     {
       title: (
@@ -109,7 +86,7 @@ const ProductList = () => {
       align: "center",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/products/${record._id}`}>
+          <Link to={`/admin/category/${record._id}`}>
             <Button
               icon={<EyeOutlined />}
               style={{ padding: "10px" }}
@@ -118,7 +95,7 @@ const ProductList = () => {
               Chi tiết
             </Button>
           </Link>
-          <Link to={`/admin/products/${record._id}/edit`}>
+          <Link to={`/admin/category/${record._id}/edit`}>
             <Button
               icon={<EditOutlined />}
               style={{ padding: "10px", color: "black" }}
@@ -141,6 +118,7 @@ const ProductList = () => {
     },
   ];
 
+  // If loading, show a loading spinner
   if (loading)
     return (
       <Spin
@@ -153,7 +131,7 @@ const ProductList = () => {
     <Card
       title="Danh sách sản phẩm"
       extra={
-        <Link to="/admin/products/add">
+        <Link to="/admin/category/add">
           <Button
             type="primary"
             icon={<PlusOutlined />}
@@ -170,7 +148,7 @@ const ProductList = () => {
       }}
     >
       <Table
-        dataSource={products}
+        dataSource={category} // Pass the fetched category data to Table
         columns={columns}
         rowKey="_id"
         pagination={{ pageSize: 30 }}

@@ -6,7 +6,6 @@ import { Route, Routes } from "react-router-dom";
 // import AddOrEditProduct from "@/pages/Admin/Tours/AddOrEditProduct";
 // import ProductDetail from "@/pages/Admin/Tours/ProductDetail";
 import LayoutAdmin from "@/layouts/AdminLayout";
-import ProductList from "@/pages/admin/Tours/ProductList";
 import Users from "@/pages/admin/User";
 import HomePage from "@/pages/(website)/Home";
 import Blog from "@/pages/(website)/Blog";
@@ -22,12 +21,16 @@ import Blogcantho from "@/pages/(website)/Blog/Blogpage/Blogcantho";
 import DetailTour from "@/pages/(website)/Home/DetailTour";
 import PayTour from "@/pages/(website)/payTour/PayTour";
 import TourList from "@/pages/(website)/Tour/TourList";
-import DashboardPage from "@/pages/admin/Tours/DashboardPage";
-import AddOrEditProduct from "@/pages/admin/Tours/component/AddOrEditProduct";
-import ProductDetail from "@/pages/admin/Tours/component/ProductDetail";
+import DashboardPage from "@/pages/admin/DashboardPage";
+import AddOrEditProduct from "@/pages/admin/Tours/products/component/AddOrEditProduct";
+import ProductDetail from "@/pages/admin/Tours/products/component/ProductDetail";
 import SupportManagement from "@/pages/admin/Support";
 import BlogList from "@/pages/(website)/Blog/BlogList";
 import BlogDetail from "@/pages/(website)/Blog/BlogDetail";
+import CategoryList from "@/pages/admin/Tours/category/CategoryList";
+import ProductList from "@/pages/admin/Tours/products/ProductList";
+import AddOrEditCategory from "@/pages/admin/Tours/category/component/AddOrEditCategory";
+import CategoryDetail from "@/pages/admin/Tours/category/component/CategoryDetail";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -60,6 +63,10 @@ const Router = () => {
           <Route path="products/add" element={<AddOrEditProduct />} />
           <Route path="products/:id" element={<ProductDetail />} />
           <Route path="products/:id/edit" element={<AddOrEditProduct />} />
+          {/* ==================category */}
+          <Route path="category" element={<CategoryList />} />
+          <Route path="category/add" element={<AddOrEditCategory />} />
+          <Route path="category/:id/edit" element={<AddOrEditCategory />} />
           <Route path="users" element={<Users />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="support" element={<SupportManagement />} />

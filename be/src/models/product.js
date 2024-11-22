@@ -14,6 +14,13 @@ const productSchema = new mongoose.Schema(
 
       index: true,
     },
+
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category", // Tên model của Category
+      required: true,
+    },
+
     startDate: { type: Date },
 
     endDate: { type: Date },
@@ -53,7 +60,6 @@ const productSchema = new mongoose.Schema(
     ],
     location: {
       type: String, // Location of the product (e.g., where it’s sold or made)
-      required: false,
     },
     image: {
       type: String,

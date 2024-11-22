@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { EditOutlined } from "@ant-design/icons";
 import {
-  Descriptions,
-  Tag,
-  Image,
   Button,
-  Spin,
-  Row,
-  Col,
-  Typography,
   Card,
   Carousel,
+  Col,
+  Descriptions,
+  Image,
+  Row,
   Space,
+  Spin,
+  Tag,
+  Typography,
 } from "antd";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { getProductById } from "../services/productService";
-import { EditOutlined } from "@ant-design/icons";
+import { getCategoryById } from "../../category/services/categpryService";
 
 const { Title, Paragraph } = Typography;
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [category, setCategory] = useState(null); // State for category data
   const [loading, setLoading] = useState(true);
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -32,6 +34,12 @@ const ProductDetail = () => {
     try {
       const { data } = await getProductById(id);
       setProduct(data);
+
+      // Fetch category after product is loaded
+      const categoryData = await getCategoryById(data.categoryId);
+      console.log(categoryData);
+
+      setCategory(categoryData.data); // Store category data in state
     } catch (error) {
       console.error("Failed to load product", error);
     } finally {
@@ -181,12 +189,8 @@ const ProductDetail = () => {
                   )}
                 </Descriptions.Item>
                 <Descriptions.Item label="Danh mục">
-                  {product.category.length > 0 ? (
-                    product.category.map((cat, index) => (
-                      <Tag key={index} color="blue">
-                        {cat}
-                      </Tag>
-                    ))
+                  {category ? (
+                    <Tag color="blue">{category.name}</Tag> // Display category name here
                   ) : (
                     <Tag color="red">Không có danh mục</Tag>
                   )}
