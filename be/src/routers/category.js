@@ -8,7 +8,6 @@ import {
 } from "../controllers/category";
 const router = Router();
 
-// Định nghĩa các route
 router.get("/category", getAllCategories);
 router.get("/category/:id", getCategoryById);
 router.post("/category", createCategory);
