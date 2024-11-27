@@ -102,7 +102,7 @@ const BlogDetail = () => {
 
       <div className="blog-detail-navigation">
         <button className="back-button">
-          <a href="/">Trở về trang chủ</a>
+          <a href="/blog">Quay lại</a>
         </button>
       </div>
     </div>
