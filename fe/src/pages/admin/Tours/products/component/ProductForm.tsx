@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  TextField,
-  Grid,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  FormHelperText,
-  Box,
-} from "@mui/material";
-import { useParams } from "react-router-dom";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import instance from "@/configs/axios";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ProductForm = ({ product, onSubmit }) => {
-  const [formData, setFormData] = useState(product || { gallery: [] });
+  const [formData, setFormData] = useState(
+    product || { gallery: [], status: false }
+  );
   const { id } = useParams();
-  const [categories, setCategories] = useState([]); 
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await instance.get("/category"); 
-        setCategories(response.data); 
+        const response = await instance.get("/category");
+        setCategories(response.data);
       } catch (error) {
         console.error("Lỗi khi tải danh mục:", error);
       }
@@ -38,7 +40,7 @@ const ProductForm = ({ product, onSubmit }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     onSubmit(formData);
   };
 
@@ -46,6 +48,10 @@ const ProductForm = ({ product, onSubmit }) => {
     const value = e.target.value;
     const galleryImages = value.split(",").map((item) => item.trim());
     setFormData({ ...formData, gallery: galleryImages });
+  };
+
+  const handleStatusChange = (e) => {
+    setFormData({ ...formData, status: e.target.checked });
   };
 
   return (
@@ -71,7 +77,7 @@ const ProductForm = ({ product, onSubmit }) => {
               required
               placeholder="Nhập tên sản phẩm"
               sx={{
-                fontSize: "30px", 
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
@@ -144,7 +150,7 @@ const ProductForm = ({ product, onSubmit }) => {
                       fontSize: "30px",
                       borderRadius: "8px",
                       boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px", 
+                      maxWidth: "200px",
                     }}
                   />
                 )}
@@ -165,13 +171,14 @@ const ProductForm = ({ product, onSubmit }) => {
                       fontSize: "30px",
                       borderRadius: "8px",
                       boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px", 
+                      maxWidth: "200px",
                     }}
                   />
                 )}
               />
             </LocalizationProvider>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel id="category-label">Danh mục</InputLabel>
@@ -195,6 +202,7 @@ const ProductForm = ({ product, onSubmit }) => {
               </Select>
             </FormControl>
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -262,36 +270,40 @@ const ProductForm = ({ product, onSubmit }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Mô tả"
-              name="description"
-              value={formData.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-              multiline
-              rows={4}
-              placeholder="Nhập mô tả sản phẩm"
-              sx={{
-                fontSize: "30px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-              }}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={formData.status === "outstanding"}
+                  onChange={(e) =>
+                    handleChange(
+                      "status",
+                      e.target.checked ? "outstanding" : "notoutstanding"
+                    )
+                  }
+                  color="primary"
+                />
+              }
+              label="Trạng thái"
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} className="flex justify-center gap-6 mt-6">
             <Button
-              type="submit"
-              variant="contained"
-              color="primary"
               sx={{
-                width: "100%",
-                borderRadius: "8px",
-                fontSize: "30px",
-                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+                fontSize: "16px",
+                fontWeight: "bold",
+                padding: "8px 30px",
+                borderRadius: "10px",
+                backgroundColor: "#42a5f5",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#1e88e5",
+                },
               }}
+              variant="contained"
+              type="submit"
             >
-              {id ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
+              {id ? "Cập nhật" : "Thêm mới"}
             </Button>
           </Grid>
         </Grid>

@@ -51,7 +51,7 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     featured: Boolean,
-    tags: [String],
+    // tags: [String],
     attributes: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -69,15 +69,15 @@ const productSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["available", "sold out"],
-      default: "available",
+      enum: ["outstanding", "notoutstanding"],
+      default: "notoutstanding",
     },
-    country: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Country",
-      },
-    ],
+    // country: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Country",
+    //   },
+    // ],
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true, versionKey: false }

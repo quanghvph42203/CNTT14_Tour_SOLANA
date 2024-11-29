@@ -1,5 +1,4 @@
 // HomePage.js
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../../../styles/main.css";
 import "../../../styles/header.css";
@@ -14,32 +13,13 @@ import image2 from "../../../img/DaLatbanner.jpg";
 import image3 from "../../../img/DaNang.png";
 import image4 from "../../../img/MienTayBanner.png";
 import Banner from "@/layouts/WebsiteLayout/_components/Banner";
-import { IProduct } from "@/common/types/product";
-import instance from "@/configs/axios";
+import Home from "./HomePage";
 
 const HomePage = () => {
-  const [tours, setTours] = useState<IProduct[]>([]);
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await instance.get("/products");
-        // console.log(data.data.data);
-        setTours(data.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
   return (
     <div id="main">
       <Banner />
-      {tours.map((item) => (
-        <div key={item._id}>
-          <h1 className="text-2xl font-bold mb-4 text-center">
-            <Link to={`/detail-tour/${item._id}`}>{item.name}</Link>
-          </h1>
-        </div>
-      ))}
+      <Home />
       <div id="content">
         <div>
           <div className="introduct">
