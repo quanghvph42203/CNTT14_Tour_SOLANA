@@ -2,7 +2,9 @@ import instance from "@/configs/axios";
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
@@ -13,7 +15,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const ProductForm = ({ product, onSubmit }) => {
-  const [formData, setFormData] = useState(product || { gallery: [] });
+  const [formData, setFormData] = useState(
+    product || { gallery: [], status: false }
+  );
   const { id } = useParams();
   const [categories, setCategories] = useState([]);
 
@@ -46,6 +50,10 @@ const ProductForm = ({ product, onSubmit }) => {
   const formatDate = (date) => {
     if (!date) return "";
     return new Date(date).toISOString().split("T")[0];
+  };
+
+  const handleStatusChange = (e) => {
+    setFormData({ ...formData, status: e.target.checked });
   };
 
   return (
@@ -130,43 +138,45 @@ const ProductForm = ({ product, onSubmit }) => {
             />
           </Grid>
           {/* ngày đi , ngày về*/}
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Ngày Đi"
-              type="date"
-              value={formatDate(formData.startDate)}
-              onChange={(e) => handleChange("startDate", e.target.value)}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{
-                fontSize: "30px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-              }}
-            />
-          </Grid>
-          
+          <Grid item xs={8} sm={6} className="flex gap-6">
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Ngày Đi"
+                type="date"
+                value={formatDate(formData.startDate)}
+                onChange={(e) => handleChange("startDate", e.target.value)}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{
+                  fontSize: "30px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                }}
+              />
+            </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Ngày Về"
-              type="date"
-              value={formatDate(formData.endDate)}
-              onChange={(e) => handleChange("endDate", e.target.value)}
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              sx={{
-                fontSize: "30px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-              }}
-            />
+            <Grid item xs={12} sm={6}>
+              <TextField
+                label="Ngày Về"
+                type="date"
+                value={formatDate(formData.endDate)}
+                onChange={(e) => handleChange("endDate", e.target.value)}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{
+                  fontSize: "30px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                }}
+              />
+            </Grid>
           </Grid>
           {/* danh muc */}
+
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel id="category-label">Danh mục</InputLabel>
@@ -191,6 +201,7 @@ const ProductForm = ({ product, onSubmit }) => {
             </FormControl>
           </Grid>
           {/* khách tối đa */}
+
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -258,37 +269,43 @@ const ProductForm = ({ product, onSubmit }) => {
           </Grid>
           {/* mô tả */}
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Mô tả"
-              name="description"
-              value={formData.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-              multiline
-              rows={4}
-              placeholder="Nhập mô tả sản phẩm"
-              sx={{
-                fontSize: "30px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-              }}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={formData.status === "outstanding"}
+                  onChange={(e) =>
+                    handleChange(
+                      "status",
+                      e.target.checked ? "outstanding" : "notoutstanding"
+                    )
+                  }
+                  color="primary"
+                />
+              }
+              label="Trạng thái"
             />
           </Grid>
           {/* submit */}
           <Grid item xs={12}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{
-                width: "100%",
-                borderRadius: "8px",
-                fontSize: "30px",
-                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              {id ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
-            </Button>
+            <Grid item xs={12} className="flex justify-center gap-6 mt-6">
+              <Button
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  padding: "8px 30px",
+                  borderRadius: "10px",
+                  backgroundColor: "#42a5f5",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#1e88e5",
+                  },
+                }}
+                variant="contained"
+                type="submit"
+              >
+                {id ? "Cập nhật" : "Thêm mới"}
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>
