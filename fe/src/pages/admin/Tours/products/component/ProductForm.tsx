@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  TextField,
-  Grid,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  FormHelperText,
-  Box,
-} from "@mui/material";
-import { useParams } from "react-router-dom";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import instance from "@/configs/axios";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const ProductForm = ({ product, onSubmit }) => {
   const [formData, setFormData] = useState(product || { gallery: [] });
   const { id } = useParams();
-  const [categories, setCategories] = useState([]); 
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await instance.get("/category"); 
-        setCategories(response.data); 
+        const response = await instance.get("/category");
+        setCategories(response.data);
       } catch (error) {
         console.error("Lỗi khi tải danh mục:", error);
       }
@@ -38,7 +34,7 @@ const ProductForm = ({ product, onSubmit }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     onSubmit(formData);
   };
 
@@ -46,6 +42,10 @@ const ProductForm = ({ product, onSubmit }) => {
     const value = e.target.value;
     const galleryImages = value.split(",").map((item) => item.trim());
     setFormData({ ...formData, gallery: galleryImages });
+  };
+  const formatDate = (date) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
   };
 
   return (
@@ -61,6 +61,7 @@ const ProductForm = ({ product, onSubmit }) => {
     >
       <form onSubmit={handleSubmit} method="POST">
         <Grid container spacing={2}>
+          {/* tên */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -71,13 +72,13 @@ const ProductForm = ({ product, onSubmit }) => {
               required
               placeholder="Nhập tên sản phẩm"
               sx={{
-                fontSize: "30px", 
+                fontSize: "30px",
                 borderRadius: "8px",
                 boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
               }}
             />
           </Grid>
-
+          {/* giá */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -95,7 +96,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* giảm giá */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -112,7 +113,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* điểm đến */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -128,50 +129,43 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
-          <Grid item xs={8} sm={6} className="flex gap-6">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Ngày Đi"
-                inputFormat="YYYY-MM-DD"
-                value={formData.startDate}
-                onChange={(date) => handleChange("startDate", date)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    sx={{
-                      fontSize: "30px",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px", 
-                    }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
-                label="Ngày Về"
-                inputFormat="YYYY-MM-DD"
-                value={formData.endDate}
-                onChange={(date) => handleChange("endDate", date)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    sx={{
-                      fontSize: "30px",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px", 
-                    }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
+          {/* ngày đi , ngày về*/}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Ngày Đi"
+              type="date"
+              value={formatDate(formData.startDate)}
+              onChange={(e) => handleChange("startDate", e.target.value)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                fontSize: "30px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              }}
+            />
           </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Ngày Về"
+              type="date"
+              value={formatDate(formData.endDate)}
+              onChange={(e) => handleChange("endDate", e.target.value)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+              sx={{
+                fontSize: "30px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              }}
+            />
+          </Grid>
+          {/* danh muc */}
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
               <InputLabel id="category-label">Danh mục</InputLabel>
@@ -195,6 +189,7 @@ const ProductForm = ({ product, onSubmit }) => {
               </Select>
             </FormControl>
           </Grid>
+          {/* khách tối đa */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -211,7 +206,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* chỗ trống */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -228,7 +223,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* ảnh */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -244,7 +239,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* ảnh phụ */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -260,7 +255,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* mô tả */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -278,7 +273,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* submit */}
           <Grid item xs={12}>
             <Button
               type="submit"
