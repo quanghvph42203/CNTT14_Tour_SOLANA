@@ -11,8 +11,6 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -49,6 +47,10 @@ const ProductForm = ({ product, onSubmit }) => {
     const galleryImages = value.split(",").map((item) => item.trim());
     setFormData({ ...formData, gallery: galleryImages });
   };
+  const formatDate = (date) => {
+    if (!date) return "";
+    return new Date(date).toISOString().split("T")[0];
+  };
 
   const handleStatusChange = (e) => {
     setFormData({ ...formData, status: e.target.checked });
@@ -67,6 +69,7 @@ const ProductForm = ({ product, onSubmit }) => {
     >
       <form onSubmit={handleSubmit} method="POST">
         <Grid container spacing={2}>
+          {/* tên */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -83,7 +86,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* giá */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -101,7 +104,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* giảm giá */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -118,7 +121,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* điểm đến */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -134,50 +137,46 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* ngày đi , ngày về*/}
           <Grid item xs={8} sm={6} className="flex gap-6">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
+            <Grid item xs={12} sm={6}>
+              <TextField
                 label="Ngày Đi"
-                inputFormat="YYYY-MM-DD"
-                value={formData.startDate}
-                onChange={(date) => handleChange("startDate", date)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    sx={{
-                      fontSize: "30px",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px",
-                    }}
-                  />
-                )}
+                type="date"
+                value={formatDate(formData.startDate)}
+                onChange={(e) => handleChange("startDate", e.target.value)}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{
+                  fontSize: "30px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                }}
               />
-            </LocalizationProvider>
+            </Grid>
+            
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
+            <Grid item xs={12} sm={6}>
+              <TextField
                 label="Ngày Về"
-                inputFormat="YYYY-MM-DD"
-                value={formData.endDate}
-                onChange={(date) => handleChange("endDate", date)}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    sx={{
-                      fontSize: "30px",
-                      borderRadius: "8px",
-                      boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                      maxWidth: "200px",
-                    }}
-                  />
-                )}
+                type="date"
+                value={formatDate(formData.endDate)}
+                onChange={(e) => handleChange("endDate", e.target.value)}
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                sx={{
+                  fontSize: "30px",
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                }}
               />
-            </LocalizationProvider>
+            </Grid>
           </Grid>
+          {/* danh muc */}
 
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
@@ -202,6 +201,7 @@ const ProductForm = ({ product, onSubmit }) => {
               </Select>
             </FormControl>
           </Grid>
+          {/* khách tối đa */}
 
           <Grid item xs={12} sm={6}>
             <TextField
@@ -219,7 +219,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* chỗ trống */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -236,7 +236,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* ảnh */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -252,7 +252,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* ảnh phụ */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -268,7 +268,7 @@ const ProductForm = ({ product, onSubmit }) => {
               }}
             />
           </Grid>
-
+          {/* mô tả */}
           <Grid item xs={12}>
             <FormControlLabel
               control={
@@ -286,25 +286,27 @@ const ProductForm = ({ product, onSubmit }) => {
               label="Trạng thái"
             />
           </Grid>
-
-          <Grid item xs={12} className="flex justify-center gap-6 mt-6">
-            <Button
-              sx={{
-                fontSize: "16px",
-                fontWeight: "bold",
-                padding: "8px 30px",
-                borderRadius: "10px",
-                backgroundColor: "#42a5f5",
-                color: "white",
-                "&:hover": {
-                  backgroundColor: "#1e88e5",
-                },
-              }}
-              variant="contained"
-              type="submit"
-            >
-              {id ? "Cập nhật" : "Thêm mới"}
-            </Button>
+          {/* submit */}
+          <Grid item xs={12}>
+            <Grid item xs={12} className="flex justify-center gap-6 mt-6">
+              <Button
+                sx={{
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  padding: "8px 30px",
+                  borderRadius: "10px",
+                  backgroundColor: "#42a5f5",
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#1e88e5",
+                  },
+                }}
+                variant="contained"
+                type="submit"
+              >
+                {id ? "Cập nhật" : "Thêm mới"}
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </form>

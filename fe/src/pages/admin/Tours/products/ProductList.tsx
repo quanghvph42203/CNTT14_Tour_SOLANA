@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Table, Button, Modal, message, Space, Card, Spin } from "antd";
-import { deleteProduct, getAllProducts } from "./services/productService";
-import {
-  EditOutlined,
-  EyeOutlined,
-  DeleteOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { Table, Button, message, Card, Spin, Space } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -19,9 +14,29 @@ const ProductList = () => {
 
   const loadProducts = async () => {
     try {
-      const { data } = await getAllProducts();
+      const headers = {
+        accept: "application/json",
+        "content-type": "application/json",
+        "x-api-key":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+      };
 
-      setProducts(data.data);
+      const response = await axios.get("https://api.gameshift.dev/nx/items", {
+        headers,
+      });
+
+      const productList = response.data.data
+        .map((product) => ({
+          id: product.item.id,
+          name: product.item.name,
+          mintAddress: product.item.mintAddress,
+          imageUrl: product.item.imageUrl,
+          description: product.item.description,
+          created: product.item.created,
+        }))
+        .sort((a, b) => new Date(b.created) - new Date(a.created));
+
+      setProducts(productList);
       setLoading(false);
     } catch (error) {
       message.error("Tải danh sách sản phẩm thất bại");
@@ -29,113 +44,119 @@ const ProductList = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    Modal.confirm({
-      title: "Xóa sản phẩm",
-      content: "Bạn có chắc chắn muốn xóa sản phẩm này?",
-      onOk: async () => {
-        try {
-          await deleteProduct(id);
-          message.success("Sản phẩm đã được xóa thành công");
-          loadProducts();
-        } catch (error) {
-          message.error("Xóa sản phẩm thất bại");
-        }
-      },
-    });
+  // bán tour
+  const sellProduct = async (id) => {
+    try {
+      const url = `https://api.gameshift.dev/nx/unique-assets/${id}/list-for-sale`;
+      const headers = {
+        accept: "application/json",
+        "content-type": "application/json",
+        // tạo ở setting
+        "x-api-key":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+      };
+      const body = {
+        price: {
+          currencyId: "USDC",
+          naturalAmount: "0.1",
+        },
+      };
+
+      const response = await axios.post(url, body, { headers });
+      const { consentUrl } = response.data;
+
+      if (consentUrl) {
+        window.location.href = consentUrl;
+      } else {
+        message.error("Không thể lấy liên kết bán sản phẩm");
+      }
+    } catch (error) {
+      message.error("Bán sản phẩm thất bại");
+    }
   };
 
   const columns = [
     {
-      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Tên Tour</h2>,
+      title: "STT",
+      key: "serial",
+      align: "center",
+      render: (_, __, index) => <span>{index + 1}</span>,
+    },
+    {
+      title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
       align: "center",
-      render: (text, record) => (
-        <Link
-          to={`/products/${record._id}`}
-          style={{ fontWeight: "bold", color: "#1890ff" }}
-        >
-          {text}
-        </Link>
+      render: (text) => <span>{text}</span>,
+    },
+    {
+      title: "Mô tả",
+      dataIndex: "description",
+      key: "description",
+      align: "center",
+      render: (text) => <span>{text}</span>,
+    },
+    {
+      title: "Ảnh",
+      dataIndex: "imageUrl",
+      key: "imageUrl",
+      align: "center",
+      render: (url) => (
+        <img
+          src={url}
+          alt="Product"
+          style={{ width: "50px", height: "50px", objectFit: "cover" }}
+        />
       ),
     },
     {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Giá Tour (VND)</h2>
-      ),
-      dataIndex: "price",
-      key: "price",
+      title: "Mint Address",
+      dataIndex: "mintAddress",
+      key: "mintAddress",
       align: "center",
-      render: (price) => <span>{price.toLocaleString()}</span>,
-    },
-    {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Giảm giá (VND)</h2>
-      ),
-      dataIndex: "discount_price",
-      key: "discount_price",
-      align: "center",
-      render: (discount) => (
-        <span>{discount ? discount.toLocaleString() : "Không có"}</span>
-      ),
-    },
-    {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>
-          Số lượng chỗ trống
-        </h2>
-      ),
-      dataIndex: "countInStock",
-      key: "countInStock",
-      align: "center",
-      render: (count) => (
-        <span style={{ color: count > 0 ? "green" : "red" }}>
-          {count > 0 ? `${count} chỗ` : "Hết chỗ"}
+      render: (text) => (
+        <span>
+          {text.length > 10 ? `${text.slice(0, 10)}...` : text}{" "}
+          {text.length > 10 && (
+            <Button
+              type="link"
+              className="text-blue-500"
+              onClick={() => message.info(text)}
+            >
+              Xem thêm
+            </Button>
+          )}
         </span>
       ),
     },
+
     {
-      title: <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Địa điểm</h2>,
-      dataIndex: "location",
-      key: "location",
+      title: "Ngày tạo",
+      dataIndex: "created",
+      key: "created",
       align: "center",
+      render: (timestamp) => (
+        <span>{new Date(timestamp).toLocaleString()}</span>
+      ),
     },
     {
-      title: (
-        <h2 style={{ fontSize: "20px", paddingTop: "10px" }}>Hành động</h2>
-      ),
-      key: "action",
+      title: "Hành động",
+      key: "actions",
       align: "center",
-      render: (text, record) => (
-        <Space size="middle">
-          <Link to={`/admin/products/${record._id}`}>
-            <Button
-              icon={<EyeOutlined />}
-              style={{ padding: "10px" }}
-              type="default"
-            >
-              Chi tiết
-            </Button>
-          </Link>
-          <Link to={`/admin/products/${record._id}/edit`}>
-            <Button
-              icon={<EditOutlined />}
-              style={{ padding: "10px", color: "black" }}
-              type="primary"
-            >
-              Sửa
-            </Button>
-          </Link>
+      render: (_, record) => (
+        <Space>
           <Button
-            icon={<DeleteOutlined />}
-            style={{ padding: "10px" }}
             type="primary"
-            danger
-            onClick={() => handleDelete(record._id)}
+            className="p-4 text-white"
+            onClick={() => sellProduct(record.id)}
           >
-            Xóa
+            Bán Tour
           </Button>
+          <Link to={`/admin/products/${record.id}`}>
+            <Button type="default" className="p-4">
+              Xem chi tiết
+            </Button>
+          </Link>
         </Space>
       ),
     },
@@ -172,8 +193,8 @@ const ProductList = () => {
       <Table
         dataSource={products}
         columns={columns}
-        rowKey="_id"
-        pagination={{ pageSize: 30 }}
+        rowKey="mintAddress" // Use an appropriate unique key
+        pagination={{ pageSize: 10 }}
         bordered
         loading={loading}
       />
