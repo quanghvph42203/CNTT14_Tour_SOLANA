@@ -1,30 +1,31 @@
-import { EditOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Carousel,
-  Col,
-  Descriptions,
-  Image,
-  Row,
-  Space,
-  Spin,
-  Tag,
-  Typography,
-} from "antd";
+import { Card, Row, Spin, Typography, Col, Divider } from "antd";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { getProductById } from "../services/productService";
-import { getCategoryById } from "../../category/services/categpryService";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
-const { Title, Paragraph } = Typography;
+const Container = styled.div`
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+`;
+
+const ProductImage = styled.img`
+  width: 100%;
+  max-width: 300px;
+  border-radius: 15px;
+  object-fit: cover;
+  border: 4px solid #e6e6e6;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+`;
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [category, setCategory] = useState(null); // State for category data
   const [loading, setLoading] = useState(true);
-  const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
     loadProduct();
@@ -32,25 +33,38 @@ const ProductDetail = () => {
 
   const loadProduct = async () => {
     try {
-      const { data } = await getProductById(id);
-      setProduct(data);
+      const headers = {
+        accept: "application/json",
+        "content-type": "application/json",
+        "x-api-key":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+      };
 
-      const categoryData = await getCategoryById(data.categoryId);
-      console.log(categoryData);
+      const response = await axios.get(
+        `https://api.gameshift.dev/nx/items/${id}`,
+        { headers }
+      );
 
-      setCategory(categoryData.data);
+      const productData = response.data;
+
+      setProduct({
+        id: productData.item.id,
+        name: productData.item.name,
+        mintAddress: productData.item.mintAddress,
+        imageUrl: productData.item.imageUrl,
+        description: productData.item.description,
+        attributes: productData.item.attributes,
+        owner: productData.item.owner,
+        address: productData.item.owner.address,
+        referenceId: productData.item.owner.referenceId,
+        created: productData.item.created,
+      });
     } catch (error) {
       console.error("Failed to load product", error);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleToggleDescription = () => {
-    setShowFullDescription(!showFullDescription);
-  };
-
-  const MAX_DESCRIPTION_LENGTH = 200;
 
   if (loading)
     return (
@@ -59,157 +73,61 @@ const ProductDetail = () => {
       </div>
     );
 
-  const calculateTourDuration = (startDate, endDate) => {
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      const diffTime = Math.abs(end - start);
-      const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
-      const nights = days > 0 ? days - 1 : 0; // Number of nights is days - 1
-      return { days, nights };
-    }
-    return { days: 0, nights: 0 };
-  };
-
-  const { days, nights } = calculateTourDuration(
-    product.startDate,
-    product.endDate
-  );
-
-  const truncatedDescription =
-    product.description.length > MAX_DESCRIPTION_LENGTH
-      ? product.description.slice(0, MAX_DESCRIPTION_LENGTH)
-      : product.description;
-
   return (
-    <div style={{ padding: "40px", maxWidth: "1200px", margin: "0 auto" }}>
+    <Container>
       <Card
-        bordered
-        style={{
-          borderRadius: 10,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-          overflow: "hidden",
-        }}
+        bordered={false}
+        style={{ borderRadius: "15px", overflow: "hidden" }}
       >
-        <Row gutter={[32, 32]}>
-          <Col xs={24} md={10}>
-            <Carousel autoplay>
-              {product.gallery.length > 0 ? (
-                product.gallery.map((url, index) => (
-                  <Image
-                    key={index}
-                    src={url}
-                    width="100%"
-                    style={{ borderRadius: 8 }}
-                  />
-                ))
-              ) : (
-                <Image
-                  src="https://via.placeholder.com/400"
-                  width="100%"
-                  style={{ borderRadius: 8 }}
-                />
-              )}
-            </Carousel>
-          </Col>
-
-          <Col xs={24} md={14}>
-            <Space
-              direction="vertical"
-              size="large"
-              style={{ width: "100%", padding: "50px" }}
-            >
-              <div>
-                <Title level={2}>{product.name}</Title>
-                <Paragraph type="secondary">
-                  {showFullDescription
-                    ? product.description
-                    : `${truncatedDescription}...`}
-                </Paragraph>
-
-                {product.description.length > MAX_DESCRIPTION_LENGTH && (
-                  <Button
-                    type="link"
-                    onClick={handleToggleDescription}
-                    style={{ padding: 0 }}
-                  >
-                    {showFullDescription ? "Thu gọn" : "Xem thêm"}
-                  </Button>
-                )}
-              </div>
-
-              <Descriptions
-                bordered
-                size="small"
-                labelStyle={{ fontWeight: "bold", width: 200 }}
-                contentStyle={{ backgroundColor: "#fafafa" }}
-                column={1}
-              >
-                <Descriptions.Item label="Giá">
-                  {product.price.toLocaleString()} VND
-                </Descriptions.Item>
-                <Descriptions.Item label="Giảm giá">
-                  {product.discount_price > 0
-                    ? `${product.discount_price.toLocaleString()} VND`
-                    : "Không có giảm giá"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Địa điểm">
-                  {product.location || "Không có địa điểm"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Thời gian">
-                  {days && nights
-                    ? `${days} ngày ${nights} đêm`
-                    : "Không có thông tin"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Ngày bắt đầu">
-                  {product.startDate
-                    ? new Date(product.startDate).toLocaleDateString()
-                    : "Không có ngày bắt đầu"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Ngày kết thúc">
-                  {product.endDate
-                    ? new Date(product.endDate).toLocaleDateString()
-                    : "Không có ngày kết thúc"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Sức chứa">
-                  {product.capacity || "Không có thông tin"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Số chỗ còn lại">
-                  {product.countInStock || "Không có thông tin"}
-                </Descriptions.Item>
-                <Descriptions.Item label="Tình trạng">
-                  {product.status === "available" ? (
-                    <Tag color="green">Có sẵn</Tag>
-                  ) : (
-                    <Tag color="red">Hết hàng</Tag>
-                  )}
-                </Descriptions.Item>
-                <Descriptions.Item label="Danh mục">
-                  {category ? (
-                    <Tag color="blue">{category.name}</Tag>
-                  ) : (
-                    <Tag color="red">Không có danh mục</Tag>
-                  )}
-                </Descriptions.Item>
-              </Descriptions>
-
-              <div style={{ display: "flex", gap: 16 }}>
-                <Link to={`/admin/products/${product._id}/edit`}>
-                  <Button
-                    type="default"
-                    size="large"
-                    icon={<EditOutlined />}
-                    style={{ flex: 1 }}
-                  >
-                    Chỉnh sửa
-                  </Button>
-                </Link>
-              </div>
-            </Space>
+        <Row justify="center" style={{ marginBottom: 20 }}>
+          <Col>
+            <ProductImage
+              src={product.imageUrl || "https://via.placeholder.com/300"}
+              alt={product.name}
+            />
           </Col>
         </Row>
+        <Typography.Title
+          level={2}
+          style={{ textAlign: "center", marginBottom: 15 }}
+        >
+          {product.name || "Tên sản phẩm không có"}
+        </Typography.Title>
+        <Divider />
+        <Typography.Paragraph style={{ color: "#555", lineHeight: 1.6 }}>
+          <strong>Mô tả:</strong> {product.description || "Không có mô tả"}
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          <strong>Mint Address:</strong>{" "}
+          {product.mintAddress || "Không có địa chỉ"}
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          <strong>Người sở hữu:</strong>{" "}
+          {product.referenceId || "Không có thông tin"}
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          <strong>Địa chỉ người sở hữu:</strong>{" "}
+          {product.address || "Không có thông tin"}
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          <strong>Thuộc tính:</strong>
+          {product.attributes && product.attributes.length > 0
+            ? product.attributes.map((attr, index) => (
+                <span key={index}>
+                  {attr.traitType}: {attr.value}
+                  {index < product.attributes.length - 1 && ", "}
+                </span>
+              ))
+            : "Không có thuộc tính"}
+        </Typography.Paragraph>
+        <Typography.Paragraph>
+          <strong>Ngày tạo:</strong>
+          {product.created
+            ? new Date(product.created).toLocaleDateString()
+            : "Không có ngày tạo"}
+        </Typography.Paragraph>
       </Card>
-    </div>
+    </Container>
   );
 };
 
