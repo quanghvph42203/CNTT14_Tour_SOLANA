@@ -1,36 +1,78 @@
-import { IUser } from "@/common/types/user";
-import { LoginValidationSchema } from "@/common/validations/auth";
-import instance from "@/configs/axios";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "../../../styles/login.css";
-type Props = {};
-
-const Login = (props: Props) => {
+import Swal from "sweetalert2";
+const Login = () => {
     const nav = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<IUser>({
-        resolver: joiResolver(LoginValidationSchema),
-    });
-    const handleOnSubmit = async (data: IUser) => {
+    const [email, setEmail] = useState("");
+    const [referenceId, setReferenceId] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Hàm kiểm tra thông tin người dùng có trùng khớp trên hệ thống không
+    const checkUserExists = async (email: string, referenceId: string) => {
+        const url = "https://api.gameshift.dev/nx/users"; // Endpoint lấy dữ liệu người dùng
+        const headers = {
+            accept: "application/json",
+            "content-type": "application/json",
+            "x-api-key":
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo", // Thay bằng API key chính xác
+        };
+
         try {
-            // console.log(data);
-            const result = await instance.post("/auth/signin", data);
-            // console.log(result.data.user);
-            localStorage.setItem("accessToken", result.data.accessToken);
-            localStorage.setItem("user", JSON.stringify(result.data.user));
-            toast.success("Login successfully");
-            nav("/");
-        } catch (error) {
-            console.log(error);
-            toast.success(error as string);
+            const response = await axios.get(url, { headers });
+
+            if (response.data && Array.isArray(response.data.data)) {
+                // So sánh dữ liệu nhập vào với dữ liệu trả về từ API
+                const user = response.data.data.find(
+                    (user: any) =>
+                        user.email === email && user.referenceId === referenceId
+                );
+                localStorage.setItem("user", JSON.stringify(user));
+                if (user) {
+                    return true; // Đăng nhập thành công
+                } else {
+                    return false; // Dữ liệu không trùng
+                }
+            } else {
+                console.error("Không tìm thấy dữ liệu người dùng.");
+                return false;
+            }
+        } catch (err) {
+            console.error("Lỗi khi lấy dữ liệu người dùng:", err);
+            return false;
         }
     };
+
+    // Hàm xử lý submit form đăng nhập
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        // Kiểm tra xem người dùng có tồn tại với email và referenceId nhập vào không
+        const isUserValid = await checkUserExists(email, referenceId);
+
+        if (isUserValid) {
+            // alert("Đăng nhập thành công!");
+            Swal.fire({
+                title: "Good job!",
+                text: "Đăng Nhập Thành Công",
+                icon: "success",
+            });
+            setTimeout(() => {
+                nav("/");
+            }, 2000);
+
+            // Tiến hành xử lý sau khi đăng nhập thành công, ví dụ: chuyển hướng người dùng
+        } else {
+            setError("Thông tin đăng nhập không chính xác.");
+        }
+
+        setLoading(false);
+    };
+
     return (
         <div id="main">
             {/* <!-- LOGIN --> */}
@@ -50,27 +92,55 @@ const Login = (props: Props) => {
                                 </span>
                             </h1>
                         </div>
-                        <form action="" onSubmit={handleSubmit(handleOnSubmit)}>
+                        <form action="" onSubmit={handleSubmit}>
                             <div className="login-mid">
-                                <input
-                                    type="text"
-                                    placeholder="Email"
-                                    {...register("email")}
-                                />
-                                {errors.email && (
+                                <div className="mb-[40px]">
+                                    <div className="relative">
+                                        <label
+                                            htmlFor="email"
+                                            className="font-bold text-2xl absolute -top-10 left-[110px]"
+                                        >
+                                            Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            required
+                                            // className="p-2 border border-gray-300 rounded w-full"
+                                        />
+                                    </div>
+                                </div>
+                                {/* {errors.email && (
                                     <p className="text-red-500">
                                         {errors.email.message}
                                     </p>
-                                )}
-                                <input
-                                    placeholder="Mật khẩu"
-                                    type="password"
-                                    {...register("password")}
-                                />
-                                {errors.password && (
-                                    <p className="text-red-500">
-                                        {errors.password.message}
-                                    </p>
+                                )} */}
+                                <div className="relative">
+                                    <label
+                                        htmlFor="email"
+                                        className="font-bold text-2xl absolute -top-10 left-[110px]"
+                                    >
+                                        ReferenceId
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="referenceId"
+                                        name="referenceId"
+                                        value={referenceId}
+                                        onChange={(e) =>
+                                            setReferenceId(e.target.value)
+                                        }
+                                        required
+                                        // className="p-2 border border-gray-300 rounded w-full"
+                                    />
+                                </div>
+                                {error && (
+                                    <p className="text-red-500">{error}</p>
                                 )}
                                 <div className="sub-login-mid">
                                     <p>
@@ -83,7 +153,15 @@ const Login = (props: Props) => {
                                 </div>
                             </div>
                             <div className="login-bot">
-                                <input type="submit" value="Đăng nhập" />
+                                <button
+                                    type="submit"
+                                    className="text-[20px] bg-blue-500 text-white p-4 rounded"
+                                    disabled={loading}
+                                >
+                                    {loading
+                                        ? "Đang đăng nhập..."
+                                        : "Đăng nhập"}
+                                </button>
                             </div>
                         </form>
                         <div className="another-login">

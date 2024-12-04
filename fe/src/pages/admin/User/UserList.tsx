@@ -1,83 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { getUsers, deleteUser } from "./API";
+import axios from "axios";
+export interface User {
+    referenceId: string;
+    email: string;
+}
+const UserList = () => {
+    const [users, setUsers] = useState<User[]>([]);
 
-const UserList = ({ onAddUser, onViewDetail, onEditUser }) => {
-  const [users, setUsers] = useState([]);
+    useEffect(() => {
+        const handlereffect = async () => {
+            const url = "https://api.gameshift.dev/nx/users";
+            const headers = {
+                accept: "application/json",
+                "content-type": "application/json",
+                "x-api-key":
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+            };
+            try {
+                const response = await axios.get(url, { headers });
+                console.log("Response data:", response.data);
+                if (Array.isArray(response.data.data)) {
+                    setUsers(response.data.data);
+                } else {
+                    console.error(
+                        "Expected array but received:",
+                        response.data.data
+                    );
+                }
+            } catch (error) {
+                console.error("Failed to fetch users:", error);
+            }
+        };
+        handlereffect();
+    }, []);
 
-  const fetchUsers = async () => {
-    try {
-      const response = await getUsers();
-      setUsers(response.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteUser(id);
-      fetchUsers();
-    } catch (error) {
-      console.error("Error deleting user:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  return (
-    <div className="max-w-6xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Danh sách người dùng</h2>
-      <button
-        onClick={onAddUser}
-        className="mb-4 bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        Thêm 
-      </button>
-      <table className="min-w-full table-auto bg-gray-100 border-collapse">
-        <thead>
-          <tr className="text-left bg-blue-500 text-white">
-            
-            <th className="px-6 py-3 font-semibold">Tên</th>
-            <th className="px-6 py-3 font-semibold">Email</th>
-            <th className="px-6 py-3 font-semibold">Vai trò</th>
-            <th className="px-6 py-3 font-semibold">Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user._id} className="border-b hover:bg-gray-200">
-              
-              <td className="px-6 py-4">{user.name}</td>
-              <td className="px-6 py-4">{user.email}</td>
-              <td className="px-6 py-4">{user.role}</td>
-              <td className="px-6 py-4 flex space-x-3">
-                <button
-                  onClick={() => onViewDetail(user._id)}
-                  className="text-blue-500 hover:text-blue-700 focus:outline-none"
-                >
-                  Xem chi tiết
-                </button>
-                <button
-                  onClick={() => onEditUser(user)}
-                  className="text-yellow-500 hover:text-yellow-700 focus:outline-none"
-                >
-                  Chỉnh sửa
-                </button>
-                <button
-                  onClick={() => handleDelete(user._id)}
-                  className="text-red-500 hover:text-red-700 focus:outline-none"
-                >
-                  Xóa
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+    return (
+        <div className="max-w-6xl mx-auto p-6 bg-white shadow-md rounded-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                Danh sách người dùng
+            </h2>
+            <table className="min-w-full table-auto bg-gray-100 border-collapse">
+                <thead>
+                    <tr className="text-left bg-blue-500 text-white">
+                        <th className="px-6 py-3 font-semibold">
+                            {" "}
+                            Reference ID
+                        </th>
+                        <th className="px-6 py-3 font-semibold">Email</th>
+                        {/* <th className="px-6 py-3 font-semibold">Vai trò</th>
+                        <th className="px-6 py-3 font-semibold">Hành động</th> */}
+                    </tr>
+                </thead>
+                <tbody>
+                    {Array.isArray(users) &&
+                        users.map((user) => (
+                            <tr
+                                key={user.referenceId}
+                                className="hover:bg-gray-50"
+                            >
+                                <td className="py-2 px-4 border-b text-gray-800">
+                                    {user.referenceId}
+                                </td>
+                                <td className="py-2 px-4 border-b text-gray-800">
+                                    {user.email}
+                                </td>
+                                {/* <td className="py-2 px-4 border-b text-gray-800">
+                                    <button className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-700 transition-all">
+                                        Edit
+                                    </button>
+                                    <button className="ml-2 bg-red-500 text-white py-1 px-3 rounded hover:bg-red-700 transition-all">
+                                        Delete
+                                    </button>
+                                </td> */}
+                            </tr>
+                        ))}
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
 export default UserList;
