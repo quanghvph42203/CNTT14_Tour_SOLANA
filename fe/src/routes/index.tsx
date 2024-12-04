@@ -30,7 +30,7 @@ import BlogDetail from "@/pages/(website)/Blog/BlogDetail";
 import CategoryList from "@/pages/admin/Tours/category/CategoryList";
 import ProductList from "@/pages/admin/Tours/products/ProductList";
 import AddOrEditCategory from "@/pages/admin/Tours/category/component/AddOrEditCategory";
-import CategoryDetail from "@/pages/admin/Tours/category/component/CategoryDetail";
+import Statistics from "@/pages/admin/DashboardPage";
 // import LayoutAdmin from "@/layouts/AdminLayout";
 
 const Router = () => {
@@ -58,7 +58,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
 
         <Route path="admin" element={<LayoutAdmin />}>
-          <Route index element={<DashboardPage />} />
+          <Route index element={<Statistics />} />
           <Route path="products" element={<ProductList />} />
           <Route path="products/add" element={<AddOrEditProduct />} />
           <Route path="products/:id" element={<ProductDetail />} />
@@ -68,7 +68,6 @@ const Router = () => {
           <Route path="category/add" element={<AddOrEditCategory />} />
           <Route path="category/:id/edit" element={<AddOrEditCategory />} />
           <Route path="users" element={<Users />} />
-          <Route path="dashboard" element={<DashboardPage />} />
           <Route path="support" element={<SupportManagement />} />
         </Route>
         {/* <Route path="*" element={<NotFoundPage />} /> */}

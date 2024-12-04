@@ -40,7 +40,7 @@ const LayoutAdmin = () => {
             </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
-                <Link to={`dashboard`}> Dashboard</Link>
+                <Link to={`/admin`}> Dashboard</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<UserOutlined />}>
                 <Link to={`users`}> Quản lý người dùng</Link>
