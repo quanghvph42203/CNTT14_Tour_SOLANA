@@ -47,7 +47,7 @@ const AddOrEditProduct = () => {
     };
     const data = {
       details: {
-        collectionId: "d676c706-660a-4fb1-a53e-dc83722fd131",
+        collectionId: "69b19639-237f-4966-bbe6-112fb2f5932e",
         description: description,
         imageUrl: imageUrl,
         name: name,
@@ -77,7 +77,7 @@ const AddOrEditProduct = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
-            label="Tên sản phẩm"
+            label="Tên tour"
             fullWidth
             value={name}
             onChange={(e) => {
@@ -93,7 +93,7 @@ const AddOrEditProduct = () => {
 
         <Grid item xs={12} sm={6}>
           <TextField
-            label="Mô tả sản phẩm"
+            label="Mô tả tour"
             fullWidth
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -111,23 +111,28 @@ const AddOrEditProduct = () => {
         </Grid>
       </Grid>
       <Box marginTop={3}>
-        <Typography variant="h6">Thuộc tính</Typography>
+        <Typography variant="h6">Nội dung</Typography>
         {attributes.map((attribute, index) => (
           <Grid container spacing={2} key={index} marginBottom={2}>
-            <Grid item xs={5}>
+            <Grid item xs={2}>
               <TextField
-                label="Tên thuộc tính"
+                label="Mặc định"
                 fullWidth
                 value={attribute.traitType}
                 onChange={(e) =>
                   handleAttributeChange(index, "traitType", e.target.value)
                 }
                 variant="outlined"
+                disabled
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
-            <Grid item xs={5}>
+
+            <Grid item xs={8}>
               <TextField
-                label="Giá trị thuộc tính"
+                label="Nội dung vd: content hoặc link ảnh"
                 fullWidth
                 value={attribute.value}
                 onChange={(e) =>
