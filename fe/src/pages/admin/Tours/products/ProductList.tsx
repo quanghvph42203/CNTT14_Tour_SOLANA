@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Table, Button, message, Card, Spin, Space } from "antd";
+import { Table, Button, message, Card, Spin, Space, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     loadProducts();
@@ -44,21 +47,29 @@ const ProductList = () => {
     }
   };
 
-  // bán tour
-  const sellProduct = async (id) => {
+  const handleSellClick = (id) => {
+    setSelectedProductId(id);
+    setIsModalVisible(true);
+  };
+
+  const handleSellProduct = async () => {
+    if (!price) {
+      message.error("Vui lòng nhập giá bán");
+      return;
+    }
+
     try {
-      const url = `https://api.gameshift.dev/nx/unique-assets/${id}/list-for-sale`;
+      const url = `https://api.gameshift.dev/nx/unique-assets/${selectedProductId}/list-for-sale`;
       const headers = {
         accept: "application/json",
         "content-type": "application/json",
-        // tạo ở setting
         "x-api-key":
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
       };
       const body = {
         price: {
           currencyId: "USDC",
-          naturalAmount: "0.1",
+          naturalAmount: price,
         },
       };
 
@@ -70,6 +81,9 @@ const ProductList = () => {
       } else {
         message.error("Không thể lấy liên kết bán gói tour");
       }
+
+      setIsModalVisible(false);
+      setPrice("");
     } catch (error) {
       message.error("Bán gói tour thất bại");
     }
@@ -87,14 +101,12 @@ const ProductList = () => {
       dataIndex: "name",
       key: "name",
       align: "center",
-      render: (text) => <span>{text}</span>,
     },
     {
       title: "Mô tả",
       dataIndex: "description",
       key: "description",
       align: "center",
-      render: (text) => <span>{text}</span>,
     },
     {
       title: "Ảnh",
@@ -145,60 +157,77 @@ const ProductList = () => {
       align: "center",
       render: (_, record) => (
         <Space>
-          <Button
-            type="primary"
-            className="p-4 text-white"
-            onClick={() => sellProduct(record.id)}
-          >
+          <Button type="primary" onClick={() => handleSellClick(record.id)}>
             Bán Tour
           </Button>
           <Link to={`/admin/products/${record.id}`}>
-            <Button type="default" className="p-4">
-              Xem chi tiết
-            </Button>
+            <Button>Xem chi tiết</Button>
           </Link>
         </Space>
       ),
     },
   ];
 
-  if (loading)
-    return (
-      <Spin
-        size="large"
-        style={{ display: "block", textAlign: "center", marginTop: "20px" }}
-      />
-    );
-
   return (
-    <Card
-      title="DANH SÁCH TOUR"
-      extra={
-        <Link to="/admin/products/add">
-          <Button
-            type="primary"
-            icon={<PlusOutlined />}
-            style={{ color: "white", padding: "10px" }}
-          >
-            Thêm gói tour mới
-          </Button>
-        </Link>
-      }
-      style={{
-        margin: "20px",
-        borderRadius: "10px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <Table
-        dataSource={products}
-        columns={columns}
-        rowKey="mintAddress" // Use an appropriate unique key
-        pagination={{ pageSize: 10 }}
-        bordered
-        loading={loading}
-      />
-    </Card>
+
+    
+    <>
+      <Card
+        title="Danh sách sản phẩm"
+        extra={
+          <Link to="/admin/products/add">
+            <Button type="primary" icon={<PlusOutlined />}>
+              Thêm sản phẩm mới
+            </Button>
+          </Link>
+        }
+        style={{
+          margin: "20px",
+          borderRadius: "10px",
+        }}
+      >
+        <Table
+          dataSource={products}
+          columns={columns}
+          rowKey="mintAddress"
+          pagination={{ pageSize: 10 }}
+          bordered
+          loading={loading}
+        />
+      </Card>
+
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ${
+          isModalVisible ? "block" : "hidden"
+        }`}
+      >
+        <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+          <h2 className="text-xl font-semibold mb-4">Nhập giá bán</h2>
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            placeholder="Nhập giá (USDC)"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <div className="mt-4 flex justify-end gap-2">
+            <button
+              onClick={() => setIsModalVisible(false)}
+              className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+            >
+              Hủy
+            </button>
+            <button
+              onClick={handleSellProduct}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              Xác nhận
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+
   );
 };
 

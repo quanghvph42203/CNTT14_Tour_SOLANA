@@ -126,22 +126,27 @@ const Home = () => {
             {tours.map((item, index) => (
               <div className="flex gap-2" key={index}>
                 <div className="bg-white p-4 rounded-lg shadow-lg overflow-hidden mx-3 hover:shadow-xl transition-shadow duration-300">
-                  <div className="h-[250px] bg-gray-100">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                  <Link
+                    to={`/detail-tour/${item.id}`}
+                    className="hover:text-blue-500 transition-colors duration-200"
+                  >
+                    <div className="h-[250px] bg-gray-100">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </Link>
                   <div className="p-4 h-[100px]">
-                    <h2 className="text-[22px] font-semibold text-gray-800">
-                      <Link
-                        to={`/detail-tour/${item.id}`}
-                        className="hover:text-blue-500 transition-colors duration-200"
-                      >
+                    <Link
+                      to={`/detail-tour/${item.id}`}
+                      className="hover:text-blue-500 transition-colors duration-200"
+                    >
+                      <h2 className="text-[22px] font-semibold text-gray-800">
                         {item.name}
-                      </Link>
-                    </h2>
+                      </h2>
+                    </Link>
                     <div className="flex items-center justify-between mt-4">
                       <Link to={`/detail-tour/${item.id}`}>
                         <button
