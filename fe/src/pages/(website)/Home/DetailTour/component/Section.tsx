@@ -69,9 +69,9 @@ const Section = ({
                   />
                   <h4 className="font-bold text-lg">{relatedTour.name}</h4>
                   <p className="text-sm text-[#777]">
-                    {relatedTours.price !== undefined ? (
-                      <p className="font-bold text-4xl text-[#fd3131] mb-[30px]">
-                        $ {relatedTours.price} USD
+                    {relatedTour.price !== undefined ? (
+                      <p className="font-bold text-[15px] text-[#fd3131] mb-[30px]">
+                        $ {relatedTour.price} USD
                       </p>
                     ) : (
                       <p className="font-bold text-[10px] text-red-500 mb-[30px]">
@@ -82,24 +82,24 @@ const Section = ({
                 </Link>
                 <button
                   className={`${
-                    relatedTours.price === undefined
+                    relatedTour.price === undefined
                       ? "bg-gray-500"
                       : "bg-[#ff5c01]"
                   } text-white rounded-xl p-4 ms-1 hover:bg-[#ff3232]`}
                   onClick={() => {
-                    if (relatedTours.price !== undefined)
-                      handleBuy(relatedTours.id);
+                    if (relatedTour.price !== undefined)
+                      handleBuy(relatedTour.id);
                   }}
-                  disabled={relatedTours.price === undefined}
+                  disabled={relatedTour.price === undefined}
                 >
                   <span className="text-2xl">
-                    {relatedTours.price === undefined
+                    {relatedTour.price === undefined
                       ? "Sản phẩm chưa được bán"
                       : "Đặt Ngay"}
                   </span>
                   <i
                     className={`fa-solid fa-chevron-right text-xl ms-4 ${
-                      relatedTours.price === undefined ? "hidden" : ""
+                      relatedTour.price === undefined ? "hidden" : ""
                     }`}
                   ></i>
                 </button>

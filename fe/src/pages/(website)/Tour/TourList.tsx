@@ -1,8 +1,8 @@
+import { IProduct } from "@/interfaces/Product";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { IProduct } from "@/interfaces/Product";
 import "../../../styles/tourList.css";
-import axios from "axios";
+import { loadRelatedTours } from "../Home/DetailTour/service/TourService";
 
 const TourList: React.FC = () => {
   const [tours, setTours] = useState<IProduct[]>([]);
@@ -11,46 +11,41 @@ const TourList: React.FC = () => {
 
   // Hàm tải dữ liệu từ API
   useEffect(() => {
-    const fetchTours = async () => {
-      try {
-        const headers = {
-          accept: "application/json",
-          "content-type": "application/json",
-          "x-api-key":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
-        };
-
-        const response = await axios.get("https://api.gameshift.dev/nx/items", {
-          headers,
-        });
-        console.log("API Response:", response.data);
-
-        // Định dạng lại dữ liệu
-        const data = response.data.data.map((item: any) => ({
-          _id: item.item.id,
-          name: item.item.name,
-          price: item.item.naturalAmount, // Giá giảm giá trị tùy chỉnh theo API
-          image: item.item.imageUrl,
-        }));
-
-        setTours(data);
-      } catch (err: any) {
-        console.error("Error fetching tours:", err);
-        setError(err.message || "Lỗi khi tải dữ liệu");
-      } finally {
+    loadRelatedTours()
+      .then((productList) => {
+        setTours(productList);
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
-
-    fetchTours();
+      });
   }, []);
 
-  const TourCard: React.FC<IProduct> = ({
-    _id,
-    name,
-    price,
-    image,
-  }) => {
+  const handleBuy = async (itemId) => {
+    try {
+      const url = `https://api.gameshift.dev/nx/unique-assets/${itemId}/buy`;
+      const headers = {
+        accept: "application/json",
+        "content-type": "application/json",
+        "x-api-key": API_KEY,
+      };
+      const body = {
+        buyerId: "người dùng 1111",
+      };
+
+      const response = await axios.post(url, body, { headers });
+
+      if (response.data.consentUrl) {
+        window.location.href = response.data.consentUrl;
+      } else {
+        message.error("Lỗi khi mua sản phẩm. Vui lòng thử lại.");
+      }
+    } catch (error) {
+      message.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+      console.error(error);
+    }
+  };
+
+  const TourCard: React.FC<IProduct> = ({ _id, name, price, image }) => {
     const renderStars = () => {
       const maxStars = 5;
       const fixedStars = 4;
@@ -77,14 +72,27 @@ const TourList: React.FC = () => {
         )}
 
         <p style={{ fontWeight: "bold" }}>{name}</p>
-        <p style={{ color: "black", fontWeight: "bold" }}>
-          {price}
-        </p>
+        <p style={{ color: "black", fontWeight: "bold" }}>{price}</p>
         {renderStars()}
 
-        <Link className="tour-card__btn" to={`/detail-tour/${_id}`}>
-          Đặt ngay
-        </Link>
+        <button
+          className={`${
+            price === undefined ? "bg-gray-500" : "bg-[#ff5c01]"
+          } text-white rounded-xl p-4 ms-1 hover:bg-[#ff3232]`}
+          onClick={() => {
+            if (price !== undefined) handleBuy(id);
+          }}
+          disabled={price === undefined}
+        >
+          <span className="text-2xl">
+            {price === undefined ? "Sản phẩm chưa được bán" : "Đặt Ngay"}
+          </span>
+          <i
+            className={`fa-solid fa-chevron-right text-xl ms-4 ${
+              price === undefined ? "hidden" : ""
+            }`}
+          ></i>
+        </button>
       </div>
     );
   };
