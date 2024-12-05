@@ -18,7 +18,7 @@ import Blogsapa from "@/pages/(website)/Blog/Blogpage/Blogsapa";
 import Blogdalat from "@/pages/(website)/Blog/Blogpage/Blogdalat";
 import Blogvungtau from "@/pages/(website)/Blog/Blogpage/Blogvungtau";
 import Blogcantho from "@/pages/(website)/Blog/Blogpage/Blogcantho";
-import DetailTour from "@/pages/(website)/Home/DetailTour";
+import DetailTour from "@/pages/(website)/Home/DetailTour/DetailTour";
 import PayTour from "@/pages/(website)/payTour/PayTour";
 import TourList from "@/pages/(website)/Tour/TourList";
 import DashboardPage from "@/pages/admin/DashboardPage";

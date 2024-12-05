@@ -116,7 +116,11 @@ const ProductList = () => {
       dataIndex: "description",
       key: "description",
       align: "center",
+      render: (text) => (
+        <span>{text.length > 30 ? `${text.slice(0, 30)} ......` : text}</span>
+      ),
     },
+
     {
       title: "Ảnh",
       dataIndex: "imageUrl",
