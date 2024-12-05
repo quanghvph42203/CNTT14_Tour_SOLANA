@@ -28,7 +28,6 @@ const DetailTour = () => {
           setSelectedImage(productDetail.image);
         }
       });
-
       loadRelatedTours()
         .then((productList) => {
           setRelatedTours(productList);

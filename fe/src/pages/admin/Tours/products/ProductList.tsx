@@ -39,6 +39,7 @@ const ProductList = () => {
           name: product.item.name,
           mintAddress: product.item.mintAddress,
           imageUrl: product.item.imageUrl,
+          price: product.item.price?.naturalAmount,
           description: product.item.description,
           created: product.item.created,
         }))
@@ -171,14 +172,20 @@ const ProductList = () => {
       render: (_, record) => (
         <Space>
           <Button
-            type="primary"
-            className="text-white p-4 "
-            onClick={() => handleSellClick(record.id)}
+            className={`${
+              record.price === undefined ? "bg-blue-500" : "bg-[#ff5c01]"
+            } text-white font-bold rounded-xl ms-1 hover:bg-[#ff3232]`}
+            onClick={() => {
+              if (record.price === undefined) handleSellClick(record.id);
+            }}
+            disabled={record.price !== undefined}
           >
-            Bán Tour
+            <span className="p-4">
+              {record.price === undefined ? "Bán" : "Đã Bán"}
+            </span>
           </Button>
           <Link to={`/admin/products/${record.id}`}>
-            <Button className="text-black p-4 ">Xem chi tiết</Button>
+            <Button className="text-black p-4">Xem chi tiết</Button>
           </Link>
         </Space>
       ),

@@ -60,6 +60,7 @@ export const loadRelatedTours = async (): Promise<IProduct[]> => {
         name: product.item.name,
         mintAddress: product.item.mintAddress,
         image: product.item.imageUrl,
+        price: product.item.price?.naturalAmount,
         description: product.item.description,
         created: product.item.created,
       }))

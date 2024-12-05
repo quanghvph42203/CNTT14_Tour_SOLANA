@@ -160,7 +160,7 @@ const Home = () => {
                           {item.name}
                         </Link>
                       </h2>
-                      <p className="text-gray-600">
+                      <p className="text-gray-600 text-[15px]">
                         {item.price
                           ? `${item.price} USDC`
                           : "Sản phẩm chưa được bày bán"}
@@ -236,7 +236,7 @@ const Home = () => {
                       disabled={item.price === undefined} // Disable if price is undefined
                     >
                       <i className="fa-solid fa-plane-departure text-5xl"></i>
-                      <span className="text-2xl ms-2">
+                      <span className="text-[15px] ms-2">
                         {item.price === undefined
                           ? "Sản phẩm chưa được bày bán"
                           : "Đặt Ngay"}
@@ -283,7 +283,7 @@ const Home = () => {
                       {item.name}
                     </Link>
                   </h2>
-                  <p className="text-gray-600 flex-grow">
+                  <p className="text-gray-600 text-[15px] flex-grow">
                     {item.price
                       ? `${item.price} USDC`
                       : "Sản phẩm chưa được bày bán"}
@@ -300,17 +300,11 @@ const Home = () => {
                       }}
                       disabled={item.price === undefined}
                     >
-                      <i className="fa-solid fa-plane-departure text-5xl"></i>
                       <span className="text-2xl ms-2">
                         {item.price === undefined
                           ? "Sản phẩm chưa được bày bán"
                           : "Đặt Ngay"}
                       </span>
-                      <i
-                        className={`fa-solid fa-chevron-right text-xl ms-4 ${
-                          item.price === undefined ? "hidden" : ""
-                        }`}
-                      ></i>
                     </button>
                   </div>
                 </div>

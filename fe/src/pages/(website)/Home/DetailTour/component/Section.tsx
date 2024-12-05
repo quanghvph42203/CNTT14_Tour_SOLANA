@@ -17,6 +17,7 @@ const Section = ({
   handleBuy,
 }) => {
   const randomRelatedTours = ramdom(relatedTours).slice(0, 5);
+  console.log(relatedTours);
 
   return (
     <div>
@@ -68,9 +69,9 @@ const Section = ({
                   />
                   <h4 className="font-bold text-lg">{relatedTour.name}</h4>
                   <p className="text-sm text-[#777]">
-                    {tour.price !== undefined ? (
+                    {relatedTours.price !== undefined ? (
                       <p className="font-bold text-4xl text-[#fd3131] mb-[30px]">
-                        $ {tour.price} USD
+                        $ {relatedTours.price} USD
                       </p>
                     ) : (
                       <p className="font-bold text-[10px] text-red-500 mb-[30px]">
@@ -81,21 +82,24 @@ const Section = ({
                 </Link>
                 <button
                   className={`${
-                    tour.price === undefined ? "bg-gray-500" : "bg-[#ff5c01]"
+                    relatedTours.price === undefined
+                      ? "bg-gray-500"
+                      : "bg-[#ff5c01]"
                   } text-white rounded-xl p-4 ms-1 hover:bg-[#ff3232]`}
                   onClick={() => {
-                    if (tour.price !== undefined) handleBuy(tour.id);
+                    if (relatedTours.price !== undefined)
+                      handleBuy(relatedTours.id);
                   }}
-                  disabled={tour.price === undefined}
+                  disabled={relatedTours.price === undefined}
                 >
                   <span className="text-2xl">
-                    {tour.price === undefined
+                    {relatedTours.price === undefined
                       ? "Sản phẩm chưa được bán"
                       : "Đặt Ngay"}
                   </span>
                   <i
                     className={`fa-solid fa-chevron-right text-xl ms-4 ${
-                      tour.price === undefined ? "hidden" : ""
+                      relatedTours.price === undefined ? "hidden" : ""
                     }`}
                   ></i>
                 </button>

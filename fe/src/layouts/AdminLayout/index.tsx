@@ -54,15 +54,6 @@ const LayoutAdmin = () => {
         </Sider>
 
         <Layout className="site-layout">
-          <Header
-            style={{
-              background: "#fff",
-              padding: 0,
-              textAlign: "center",
-            }}
-          >
-            <h1>Trang quản trị - Quản lý tour du lịch</h1>
-          </Header>
           <Content style={{ margin: "0 16px" }}>
             <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>Admin</Breadcrumb.Item>
