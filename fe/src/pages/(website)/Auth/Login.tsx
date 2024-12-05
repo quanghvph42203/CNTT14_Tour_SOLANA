@@ -10,38 +10,14 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-    const checkUserExists = async (email: string, referenceId: string) => {
-        const url = "https://api.gameshift.dev/nx/users"; // Endpoint lấy dữ liệu người dùng
-        const headers = {
-          accept: "application/json",
-          "content-type": "application/json",
-          "x-api-key":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU", // Thay bằng API key chính xác
-        };
-
-        try {
-            const response = await axios.get(url, { headers });
-
-            if (response.data && Array.isArray(response.data.data)) {
-                // So sánh dữ liệu nhập vào với dữ liệu trả về từ API
-                const user = response.data.data.find(
-                    (user: any) =>
-                        user.email === email && user.referenceId === referenceId
-                );
-                localStorage.setItem("user", JSON.stringify(user));
-                if (user) {
-                    return true; // Đăng nhập thành công
-                } else {
-                    return false; // Dữ liệu không trùng
-                }
-            } else {
-                console.error("Không tìm thấy dữ liệu người dùng.");
-                return false;
-            }
-        } catch (err) {
-            console.error("Lỗi khi lấy dữ liệu người dùng:", err);
-            return false;
-        }
+  // Hàm kiểm tra thông tin người dùng có trùng khớp trên hệ thống không
+  const checkUserExists = async (email: string, referenceId: string) => {
+    const url = "https://api.gameshift.dev/nx/users"; // Endpoint lấy dữ liệu người dùng
+    const headers = {
+      accept: "application/json",
+      "content-type": "application/json",
+      "x-api-key":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU", // Thay bằng API key chính xác
     };
 
     try {
