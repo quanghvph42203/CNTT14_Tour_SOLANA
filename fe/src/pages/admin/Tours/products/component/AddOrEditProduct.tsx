@@ -56,7 +56,7 @@ const AddOrEditProduct = () => {
           value: attr.value,
         })),
       },
-      destinationUserReferenceId: "quanghvph42203",
+      destinationUserReferenceId: "người dùng 1111",
     };
 
     try {
