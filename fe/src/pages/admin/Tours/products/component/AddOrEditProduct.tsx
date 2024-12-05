@@ -27,6 +27,14 @@ const AddOrEditProduct = () => {
   const handleAttributeChange = (index, key, value) => {
     const newAttributes = [...attributes];
     newAttributes[index][key] = value;
+
+    if (key === "value") {
+      const isImageUrl = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i.test(
+        value
+      );
+      newAttributes[index]["traitType"] = isImageUrl ? "image" : "content";
+    }
+
     setAttributes(newAttributes);
   };
 

@@ -261,7 +261,7 @@ const Home = () => {
         <div className="flex flex-wrap gap-6 mt-10">
           {remainingProducts.map((item) => (
             <div key={item.id} className="w-[23%]">
-              <div className="bg-white p-4 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="bg-white h-[470px] p-4 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
                 <div className="h-[300px] bg-gray-100">
                   <Link
                     to={`/detail-tour/${item.id}`}
@@ -274,7 +274,7 @@ const Home = () => {
                     />
                   </Link>
                 </div>
-                <div className="p-4">
+                <div className="p-4 flex flex-col flex-grow">
                   <h2 className="text-[22px] font-semibold text-gray-800">
                     <Link
                       to={`/detail-tour/${item.id}`}
@@ -283,22 +283,22 @@ const Home = () => {
                       {item.name}
                     </Link>
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 flex-grow">
                     {item.price
                       ? `${item.price} USDC`
                       : "Sản phẩm chưa được bày bán"}
                   </p>
-                  <div className="flex items-center justify-between mt-4">
+                  <div className="mt-auto">
                     <button
-                      className={`w-[350px] h-[60px] ${
+                      className={`w-full h-[60px] ${
                         item.price === undefined
                           ? "bg-gray-500"
                           : "bg-[#ff5c01]"
-                      } text-white rounded-xl pb-[8px] ms-1 hover:bg-[#ff3232]`}
+                      } text-white rounded-xl hover:bg-[#ff3232]`}
                       onClick={() => {
                         if (item.price !== undefined) handleBuy(item.id);
                       }}
-                      disabled={item.price === undefined} // Disable if price is undefined
+                      disabled={item.price === undefined}
                     >
                       <i className="fa-solid fa-plane-departure text-5xl"></i>
                       <span className="text-2xl ms-2">
