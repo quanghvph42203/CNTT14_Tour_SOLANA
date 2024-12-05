@@ -3,6 +3,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../../styles/login.css";
 import Swal from "sweetalert2";
+
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo";
+
 const Login = () => {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
@@ -16,8 +20,7 @@ const Login = () => {
     const headers = {
       accept: "application/json",
       "content-type": "application/json",
-      "x-api-key":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU", // Thay bằng API key chính xác
+      "x-api-key": API_KEY,
     };
 
     try {
@@ -67,7 +70,7 @@ const Login = () => {
 
       // Tiến hành xử lý sau khi đăng nhập thành công, ví dụ: chuyển hướng người dùng
     } else {
-      setError("Thông tin đăng nhập không chính xác."); 
+      setError("Thông tin đăng nhập không chính xác.");
     }
 
     setLoading(false);
