@@ -67,7 +67,7 @@ const Login = () => {
 
       // Tiến hành xử lý sau khi đăng nhập thành công, ví dụ: chuyển hướng người dùng
     } else {
-      setError("Thông tin đăng nhập không chính xác.");
+      setError("Thông tin đăng nhập không chính xác."); 
     }
 
     setLoading(false);
