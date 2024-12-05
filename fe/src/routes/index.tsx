@@ -2,36 +2,30 @@ import WebsiteLayout from "@/layouts/WebsiteLayout";
 import Login from "@/pages/(website)/Auth/Login";
 import Register from "@/pages/(website)/Auth/Register";
 import { Route, Routes } from "react-router-dom";
-// import ProductList from "@/pages/Admin/Tours/ProductList";
-// import AddOrEditProduct from "@/pages/Admin/Tours/AddOrEditProduct";
-// import ProductDetail from "@/pages/Admin/Tours/ProductDetail";
 import LayoutAdmin from "@/layouts/AdminLayout";
-import Users from "@/pages/admin/User";
-import HomePage from "@/pages/(website)/Home";
-import Blog from "@/pages/(website)/Blog";
-import Contact from "@/pages/(website)/Contact";
-import Sapa from "@/pages/(website)/Home/Sapa";
-import Dalat from "@/pages/(website)/Home/Dalat";
-import Vungtau from "@/pages/(website)/Home/Vungtau";
-import Cantho from "@/pages/(website)/Home/Cantho";
-import Blogsapa from "@/pages/(website)/Blog/Blogpage/Blogsapa";
-import Blogdalat from "@/pages/(website)/Blog/Blogpage/Blogdalat";
-import Blogvungtau from "@/pages/(website)/Blog/Blogpage/Blogvungtau";
+import BlogDetail from "@/pages/(website)/Blog/BlogDetail";
+import BlogList from "@/pages/(website)/Blog/BlogList";
 import Blogcantho from "@/pages/(website)/Blog/Blogpage/Blogcantho";
+import Blogdalat from "@/pages/(website)/Blog/Blogpage/Blogdalat";
+import Blogsapa from "@/pages/(website)/Blog/Blogpage/Blogsapa";
+import Blogvungtau from "@/pages/(website)/Blog/Blogpage/Blogvungtau";
+import Contact from "@/pages/(website)/Contact";
+import HomePage from "@/pages/(website)/Home";
+import Cantho from "@/pages/(website)/Home/Cantho";
+import Dalat from "@/pages/(website)/Home/Dalat";
 import DetailTour from "@/pages/(website)/Home/DetailTour";
-import PayTour from "@/pages/(website)/payTour/PayTour";
+import Sapa from "@/pages/(website)/Home/Sapa";
+import Vungtau from "@/pages/(website)/Home/Vungtau";
 import TourList from "@/pages/(website)/Tour/TourList";
-import DashboardPage from "@/pages/admin/DashboardPage";
+import Statistics from "@/pages/admin/DashboardPage";
+import SupportManagement from "@/pages/admin/Support";
+import CategoryList from "@/pages/admin/Tours/category/CategoryList";
+import AddOrEditCategory from "@/pages/admin/Tours/category/component/AddOrEditCategory";
 import AddOrEditProduct from "@/pages/admin/Tours/products/component/AddOrEditProduct";
 import ProductDetail from "@/pages/admin/Tours/products/component/ProductDetail";
-import SupportManagement from "@/pages/admin/Support";
-import BlogList from "@/pages/(website)/Blog/BlogList";
-import BlogDetail from "@/pages/(website)/Blog/BlogDetail";
-import CategoryList from "@/pages/admin/Tours/category/CategoryList";
 import ProductList from "@/pages/admin/Tours/products/ProductList";
-import AddOrEditCategory from "@/pages/admin/Tours/category/component/AddOrEditCategory";
-import Statistics from "@/pages/admin/DashboardPage";
-// import LayoutAdmin from "@/layouts/AdminLayout";
+import Users from "@/pages/admin/User";
+
 
 const Router = () => {
   return (
@@ -52,7 +46,6 @@ const Router = () => {
           <Route path="/blogvungtau" element={<Blogvungtau />} />
           <Route path="/blogcantho" element={<Blogcantho />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/payTour/:id" element={<PayTour />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

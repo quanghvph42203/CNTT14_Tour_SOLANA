@@ -6,6 +6,8 @@ import {
   DashboardOutlined,
   UserOutlined,
   ProfileOutlined,
+  ContactsOutlined,
+  BankOutlined,
 } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import Sider from "antd/es/layout/Sider";
@@ -40,22 +42,19 @@ const LayoutAdmin = () => {
             </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
               <Menu.Item key="1" icon={<DashboardOutlined />}>
-                <Link to={`/admin`}> Dashboard</Link>
+                <Link to={`/admin`}> Thống Kê</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<UserOutlined />}>
-                <Link to={`users`}> Quản lý người dùng</Link>
+                <Link to={`users`}> Quản Lý Người Dùng</Link>
               </Menu.Item>
               <Menu.Item key="3" icon={<ProfileOutlined />}>
-                <Link to={`products`}> Quản lý tour</Link>
+                <Link to={`products`}> Quản Lý Gói Tour</Link>
               </Menu.Item>
-              <Menu.Item key="6" icon={<ProfileOutlined />}>
-                <Link to={`category`}>Quản lý Danh mục</Link>
-              </Menu.Item>
-              <Menu.Item key="5" icon={<ProfileOutlined />}>
-                <Link to={`support`}>Quản lý Hỗ trợ</Link>
+              <Menu.Item key="5" icon={<ContactsOutlined />}>
+                <Link to={`support`}> Quản Lý Hỗ Trợ</Link>
               </Menu.Item>
 
-              <Menu.Item key="4" icon={<ProfileOutlined />}>
+              <Menu.Item key="4" icon={<BankOutlined />}>
                 <Link to={`/`}> Về Trang Chủ</Link>
               </Menu.Item>
             </Menu>

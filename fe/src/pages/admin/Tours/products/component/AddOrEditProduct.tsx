@@ -33,11 +33,11 @@ const AddOrEditProduct = () => {
       accept: "application/json",
       "content-type": "application/json",
       "x-api-key":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
     };
     const data = {
       details: {
-        collectionId: "69b19639-237f-4966-bbe6-112fb2f5932e",
+        collectionId: "d676c706-660a-4fb1-a53e-dc83722fd131",
         description: description,
         imageUrl: imageUrl,
         name: name,
@@ -46,7 +46,7 @@ const AddOrEditProduct = () => {
           value: attr.value,
         })),
       },
-      destinationUserReferenceId: "người dùng 1111",
+      destinationUserReferenceId: "quanghvph42203",
     };
 
     try {
