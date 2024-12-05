@@ -9,7 +9,6 @@ import "antd/dist/reset.css";
 import { Content, Footer } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { Link, Navigate, Outlet } from "react-router-dom";
-import Header from "../WebsiteLayout/_components/Header";
 
 const LayoutAdmin = () => {
   const user = localStorage.getItem("user")

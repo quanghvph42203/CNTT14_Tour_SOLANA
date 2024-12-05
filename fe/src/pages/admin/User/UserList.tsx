@@ -12,10 +12,10 @@ const UserList = () => {
         const handlereffect = async () => {
             const url = "https://api.gameshift.dev/nx/users";
             const headers = {
-                accept: "application/json",
-                "content-type": "application/json",
-                "x-api-key":
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+              accept: "application/json",
+              "content-type": "application/json",
+              "x-api-key":
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
             };
             try {
                 const response = await axios.get(url, { headers });
@@ -38,7 +38,7 @@ const UserList = () => {
     return (
         <div className="max-w-6xl mx-auto p-6 bg-white shadow-md rounded-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                Danh sách người dùng
+                DANH SÁCH NGƯỜI DÙNG
             </h2>
             <table className="min-w-full table-auto bg-gray-100 border-collapse">
                 <thead>

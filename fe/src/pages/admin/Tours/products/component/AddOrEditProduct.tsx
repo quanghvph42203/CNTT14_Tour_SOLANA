@@ -47,7 +47,7 @@ const AddOrEditProduct = () => {
     };
     const data = {
       details: {
-        collectionId: "69b19639-237f-4966-bbe6-112fb2f5932e",
+        collectionId: "d676c706-660a-4fb1-a53e-dc83722fd131",
         description: description,
         imageUrl: imageUrl,
         name: name,
@@ -56,7 +56,7 @@ const AddOrEditProduct = () => {
           value: attr.value,
         })),
       },
-      destinationUserReferenceId: "người dùng 1111",
+      destinationUserReferenceId: "quanghvph42203",
     };
 
     try {

@@ -53,7 +53,7 @@ const ProductList = () => {
       setProducts(productList);
       setLoading(false);
     } catch (error) {
-      message.error("Tải danh sách sản phẩm thất bại");
+      message.error("Tải danh sách gói tour thất bại");
       setLoading(false);
     }
   };
@@ -74,6 +74,7 @@ const ProductList = () => {
       const headers = {
         accept: "application/json",
         "content-type": "application/json",
+
         "x-api-key": API_KEY,
       };
       const body = {
@@ -89,13 +90,13 @@ const ProductList = () => {
       if (consentUrl) {
         window.location.href = consentUrl;
       } else {
-        message.error("Không thể lấy liên kết bán sản phẩm");
+        message.error("Không thể lấy liên kết bán gói tour");
       }
 
       setIsModalVisible(false);
       setPrice("");
     } catch (error) {
-      message.error("Bán sản phẩm thất bại");
+      message.error("Bán gói tour thất bại");
     }
   };
 
@@ -107,7 +108,7 @@ const ProductList = () => {
       render: (_, __, index) => <span>{index + 1}</span>,
     },
     {
-      title: "Tên sản phẩm",
+      title: "Tên gói tour",
       dataIndex: "name",
       key: "name",
       align: "center",
