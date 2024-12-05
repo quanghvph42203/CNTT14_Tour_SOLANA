@@ -4,6 +4,9 @@ import { Button, TextField, Box, Grid, Typography } from "@mui/material";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo";
+
 const AddOrEditProduct = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -32,8 +35,7 @@ const AddOrEditProduct = () => {
     const headers = {
       accept: "application/json",
       "content-type": "application/json",
-      "x-api-key":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+      "x-api-key": API_KEY,
     };
     const data = {
       details: {
@@ -70,10 +72,17 @@ const AddOrEditProduct = () => {
             label="Tên sản phẩm"
             fullWidth
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              if (e.target.value.length <= 32) {
+                setName(e.target.value);
+              } else {
+                message.warning("Tên sản phẩm không được vượt quá 32 ký tự.");
+              }
+            }}
             variant="outlined"
           />
         </Grid>
+
         <Grid item xs={12} sm={6}>
           <TextField
             label="Mô tả sản phẩm"

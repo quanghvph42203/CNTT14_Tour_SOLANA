@@ -4,6 +4,9 @@ import { Table, Button, message, Card, Spin, Space, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 
+const API_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo";
+
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,13 +23,15 @@ const ProductList = () => {
       const headers = {
         accept: "application/json",
         "content-type": "application/json",
-        "x-api-key":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+        "x-api-key": API_KEY,
       };
 
       const response = await axios.get("https://api.gameshift.dev/nx/items", {
         headers,
       });
+
+      const today = new Date();
+      today.setUTCHours(0, 0, 0, 0);
 
       const productList = response.data.data
         .map((product) => ({
@@ -37,6 +42,11 @@ const ProductList = () => {
           description: product.item.description,
           created: product.item.created,
         }))
+        .filter((product) => {
+          const productDate = new Date(product.created);
+          productDate.setUTCHours(0, 0, 0, 0);
+          return productDate >= today;
+        })
         .sort((a, b) => new Date(b.created) - new Date(a.created));
 
       setProducts(productList);
@@ -63,8 +73,7 @@ const ProductList = () => {
       const headers = {
         accept: "application/json",
         "content-type": "application/json",
-        "x-api-key":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+        "x-api-key": API_KEY,
       };
       const body = {
         price: {
@@ -157,11 +166,15 @@ const ProductList = () => {
       align: "center",
       render: (_, record) => (
         <Space>
-          <Button type="primary" onClick={() => handleSellClick(record.id)}>
+          <Button
+            type="primary"
+            className="text-white p-4 "
+            onClick={() => handleSellClick(record.id)}
+          >
             Bán Tour
           </Button>
           <Link to={`/admin/products/${record.id}`}>
-            <Button>Xem chi tiết</Button>
+            <Button className="text-black p-4 ">Xem chi tiết</Button>
           </Link>
         </Space>
       ),
@@ -174,8 +187,12 @@ const ProductList = () => {
         title="Danh sách sản phẩm"
         extra={
           <Link to="/admin/products/add">
-            <Button type="primary" icon={<PlusOutlined />}>
-              Thêm sản phẩm mới
+            <Button
+              type="primary"
+              className="text-white p-4 "
+              icon={<PlusOutlined />}
+            >
+              Thêm Tour
             </Button>
           </Link>
         }
