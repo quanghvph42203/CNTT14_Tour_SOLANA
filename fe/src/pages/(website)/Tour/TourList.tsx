@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IProduct } from "@/interfaces/Product";
-import "../../../styles/tourList.css"; 
-import instance from "@/configs/axios"; 
+import "../../../styles/tourList.css";
+import axios from "axios";
 
 const TourList: React.FC = () => {
-  const [tours, setTours] = useState<IProduct[]>([]); 
-  const [loading, setLoading] = useState<boolean>(true); 
-  const [error, setError] = useState<string>(""); 
+  const [tours, setTours] = useState<IProduct[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
+  // Hàm tải dữ liệu từ API
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await instance.get("/products");
+        const headers = {
+          accept: "application/json",
+          "content-type": "application/json",
+          "x-api-key":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
+        };
+
+        const response = await axios.get("https://api.gameshift.dev/nx/items", {
+          headers,
+        });
         console.log("API Response:", response.data);
-  
-        
-        const data = Array.isArray(response.data.data) ? response.data.data : [];
-        console.log("Formatted Data:", data); 
-  
-        setTours(data); 
+
+        // Định dạng lại dữ liệu
+        const data = response.data.data.map((item: any) => ({
+          _id: item.item.id,
+          name: item.item.name,
+          price: item.item.naturalAmount, // Giá giảm giá trị tùy chỉnh theo API
+          image: item.item.imageUrl,
+        }));
+
+        setTours(data);
       } catch (err: any) {
         console.error("Error fetching tours:", err);
         setError(err.message || "Lỗi khi tải dữ liệu");
@@ -27,22 +41,16 @@ const TourList: React.FC = () => {
         setLoading(false);
       }
     };
-  
+
     fetchTours();
   }, []);
-  
-  
 
-  
   const TourCard: React.FC<IProduct> = ({
     _id,
     name,
-    location,
     price,
-    discount_price,
-    image, 
+    image,
   }) => {
-  
     const renderStars = () => {
       const maxStars = 5;
       const fixedStars = 4;
@@ -59,8 +67,7 @@ const TourList: React.FC = () => {
         </div>
       );
     };
-    
-  
+
     return (
       <div className="tour-card" key={_id}>
         {image ? (
@@ -68,22 +75,12 @@ const TourList: React.FC = () => {
         ) : (
           <p>Không có hình ảnh</p>
         )}
-        <h3 className="nametour">{location || "Địa điểm không xác định"}</h3>
-        <p>{name}</p>
-        {renderStars()}
 
-        <div className="price-container">
-          {discount_price && (
-            <p className="gia-khuyen-mai">{discount_price?.toLocaleString()} VND</p>
-          )}
-          <p>
-            <span
-              style={{ textDecoration: discount_price ? "line-through" : "none" }}
-            >
-              {price?.toLocaleString() || "0"} VND
-            </span>
-          </p>
-        </div>
+        <p style={{ fontWeight: "bold" }}>{name}</p>
+        <p style={{ color: "black", fontWeight: "bold" }}>
+          {price}
+        </p>
+        {renderStars()}
 
         <Link className="tour-card__btn" to={`/detail-tour/${_id}`}>
           Đặt ngay
@@ -91,10 +88,7 @@ const TourList: React.FC = () => {
       </div>
     );
   };
-  
-  
 
-  
   if (loading) {
     return (
       <div className="center-containers">
@@ -103,7 +97,6 @@ const TourList: React.FC = () => {
     );
   }
 
-  
   if (error) {
     return (
       <div className="center-containers">
@@ -112,7 +105,6 @@ const TourList: React.FC = () => {
     );
   }
 
- 
   return (
     <div id="main">
       <div id="newscontainer">

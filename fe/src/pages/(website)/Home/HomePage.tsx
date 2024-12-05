@@ -20,7 +20,7 @@ const Home = () => {
         accept: "application/json",
         "content-type": "application/json",
         "x-api-key":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
       };
 
       const response = await axios.get("https://api.gameshift.dev/nx/items", {
@@ -55,10 +55,10 @@ const Home = () => {
         accept: "application/json",
         "content-type": "application/json",
         "x-api-key":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
       };
       const body = {
-        buyerId: "người dùng 1111",
+        buyerId: "havietquangk4",
       };
 
       const response = await axios.post(url, body, { headers });
@@ -148,12 +148,14 @@ const Home = () => {
                       </h2>
                     </Link>
                     <div className="flex items-center justify-between mt-4">
-                      <button
-                        className="bg-blue-500 p-4 text-white font-bold border-collapse text-[15px]"
-                        onClick={() => handleBuy(item.id)}
-                      >
-                        Mua sản phẩm
-                      </button>
+                      <Link to={`/detail-tour/${item.id}`}>
+                        <button
+                          className="bg-blue-500 p-4 text-white font-bold border-collapse text-[15px]"
+                          onClick={() => handleBuy(item.id)}
+                        >
+                          Đặt ngay
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

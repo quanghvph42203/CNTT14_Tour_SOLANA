@@ -21,7 +21,7 @@ const ProductList = () => {
         accept: "application/json",
         "content-type": "application/json",
         "x-api-key":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
       };
 
       const response = await axios.get("https://api.gameshift.dev/nx/items", {
@@ -42,7 +42,7 @@ const ProductList = () => {
       setProducts(productList);
       setLoading(false);
     } catch (error) {
-      message.error("Tải danh sách sản phẩm thất bại");
+      message.error("Tải danh sách gói tour thất bại");
       setLoading(false);
     }
   };
@@ -64,7 +64,7 @@ const ProductList = () => {
         accept: "application/json",
         "content-type": "application/json",
         "x-api-key":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiIyNDgzYjllOC1kYTM2LTQ4YmYtYjU5NC0yN2U3MTY3Yjg3ZjIiLCJzdWIiOiJmMGJjM2Y5OC01MDAwLTQyMmYtODM4ZS1lMzQxYTcxOTliMDIiLCJpYXQiOjE3MzMyODM5NjB9.LdM4pDuynJgagVnHcVL3Y_3Lg7mDGxa8xfGljbN3dpo",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
       };
       const body = {
         price: {
@@ -79,13 +79,13 @@ const ProductList = () => {
       if (consentUrl) {
         window.location.href = consentUrl;
       } else {
-        message.error("Không thể lấy liên kết bán sản phẩm");
+        message.error("Không thể lấy liên kết bán gói tour");
       }
 
       setIsModalVisible(false);
       setPrice("");
     } catch (error) {
-      message.error("Bán sản phẩm thất bại");
+      message.error("Bán gói tour thất bại");
     }
   };
 
@@ -97,7 +97,7 @@ const ProductList = () => {
       render: (_, __, index) => <span>{index + 1}</span>,
     },
     {
-      title: "Tên sản phẩm",
+      title: "Tên gói tour",
       dataIndex: "name",
       key: "name",
       align: "center",
@@ -169,6 +169,8 @@ const ProductList = () => {
   ];
 
   return (
+
+    
     <>
       <Card
         title="Danh sách sản phẩm"
@@ -225,6 +227,7 @@ const ProductList = () => {
         </div>
       </div>
     </>
+
   );
 };
 
