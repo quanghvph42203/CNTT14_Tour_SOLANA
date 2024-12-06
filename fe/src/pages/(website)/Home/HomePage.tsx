@@ -27,29 +27,26 @@ const Home = () => {
         headers,
       });
 
-      const today = new Date();
-      today.setUTCHours(0, 0, 0, 0);
+      // Timestamp mốc để lọc
+      const filterTimestamp = 1733392120175;
 
       const productList = response.data.data
         .map((product) => ({
-          name: product.item.name,
-          image: product.item.imageUrl,
-          description: product.item.description,
           id: product.item.id,
+          name: product.item.name,
+          mintAddress: product.item.mintAddress,
+          image: product.item.imageUrl,
           price: product.item.price?.naturalAmount,
+          description: product.item.description,
           created: product.item.created,
         }))
-        .filter((product) => {
-          const productDate = new Date(product.created);
-          productDate.setUTCHours(0, 0, 0, 0);
-          return productDate >= today;
-        })
-        .sort((a, b) => new Date(b.created) - new Date(a.created));
+        .filter((product) => product.created >= filterTimestamp) // Lọc theo timestamp mốc
+        .sort((a, b) => b.created - a.created); // Sắp xếp giảm dần theo timestamp
 
       setTours(productList);
       setLoading(false);
     } catch (error) {
-      message.error("Tải danh sách sản phẩm thất bại");
+      message.error("Tải danh sách gói tour thất bại");
       setLoading(false);
     }
   };

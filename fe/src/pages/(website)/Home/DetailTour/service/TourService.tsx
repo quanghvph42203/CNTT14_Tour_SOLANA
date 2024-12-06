@@ -51,8 +51,7 @@ export const loadRelatedTours = async (): Promise<IProduct[]> => {
       headers,
     });
 
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
+    const filterTimestamp = 1733392120175;
 
     const productList = response.data.data
       .map((product) => ({
@@ -64,13 +63,8 @@ export const loadRelatedTours = async (): Promise<IProduct[]> => {
         description: product.item.description,
         created: product.item.created,
       }))
-      .filter((product) => {
-        const productDate = new Date(product.created);
-        productDate.setUTCHours(0, 0, 0, 0);
-        return productDate >= today;
-      })
-      .sort((a, b) => new Date(b.created) - new Date(a.created));
-
+      .filter((product) => product.created >= filterTimestamp) // Lọc theo timestamp mốc
+      .sort((a, b) => b.created - a.created);
     return productList;
   } catch (error) {
     message.error("Tải danh sách sản phẩm thất bại");
