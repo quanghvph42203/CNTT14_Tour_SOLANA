@@ -1,3 +1,4 @@
+import { number } from "joi";
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
@@ -6,23 +7,29 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      lowercase: true,
-      index: true,
     },
+    destination: { type: String }, //điểm đến
     slug: {
       type: String,
-      unique: true,
+
       index: true,
     },
-    category: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
+
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category", // Tên model của Category
+      required: true,
+    },
+
+    startDate: { type: Date },
+
+    endDate: { type: Date },
+    capacity: { type: Number }, //số lượng khách tối đa
+    availability: { type: Number }, //số chỗ còn trống
+
     price: {
       type: Number,
-      required: true,
+
       default: 0,
     },
     discount_price: {
@@ -44,7 +51,7 @@ const productSchema = new mongoose.Schema(
       default: 0,
     },
     featured: Boolean,
-    tags: [String],
+    // tags: [String],
     attributes: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -53,8 +60,25 @@ const productSchema = new mongoose.Schema(
     ],
     location: {
       type: String, // Location of the product (e.g., where it’s sold or made)
-      required: false,
     },
+    image: {
+      type: String,
+      default:
+        "../upload/pngtree-character-default-avatar-png-image_5407167.jpg",
+    },
+
+    status: {
+      type: String,
+      enum: ["outstanding", "notoutstanding"],
+      default: "notoutstanding",
+    },
+    // country: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Country",
+    //   },
+    // ],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   { timestamps: true, versionKey: false }
 );

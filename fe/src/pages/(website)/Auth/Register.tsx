@@ -1,137 +1,57 @@
-import { IUser } from "@/common/types/user";
-import instance from "@/configs/axios";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { joiResolver } from "@hookform/resolvers/joi";
-import { RegisterValidationSchema } from "@/common/validations/auth";
-import { toast } from "react-toastify";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../../styles/register.css";
-type Props = {};
+import Swal from "sweetalert2";
 
-const Register = (props: Props) => {
+const Register = () => {
     const nav = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<IUser>({
-        resolver: joiResolver(RegisterValidationSchema),
-    });
-    const handleOnSubmit = async (data: IUser) => {
+    const [email, setEmail] = useState("");
+    const [referenceId, setReferenceId] = useState("");
+    const [externalWalletAddress, setExternalWalletAddress] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+
+        const url = "https://api.gameshift.dev/nx/users";
+        const headers = {
+          accept: "application/json",
+          "content-type": "application/json",
+          "x-api-key":
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiJkZGQyYWZlMS1mNjQ0LTQ4MmMtYTE1Mi01ZGYxNDcxNDg5YmUiLCJzdWIiOiJlZjZlMjQwMS1iMjJkLTQ3NzQtODZkNy0yNjRiNmZjZGNjM2UiLCJpYXQiOjE3MzMzNTgwOTR9.0U72URFblRgXKu-FR8oAaO04c1_Wsyir95ggvBXpImU",
+        };
+        const body = {
+            email,
+            referenceId,
+            externalWalletAddress,
+        };
+
         try {
-            // console.log(data);
-            await instance.post("/auth/signup", data);
-            toast.success("Register successfully");
-            nav("/login");
-        } catch (error) {
-            console.log(error);
-            toast.success(error as string);
+            const response = await axios.post(url, body, { headers });
+            console.log(response.data);
+            Swal.fire({
+                title: "Good job!",
+                text: "Đăng Kí Thành Công",
+                icon: "success",
+            });
+            setTimeout(() => {
+                nav("/login");
+            }, 2000);
+        } catch (err) {
+            console.error(err);
+            setError("Đăng ký thất bại. Vui lòng thử lại.");
+        } finally {
+            setLoading(false);
         }
     };
+
     return (
-        // <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        //     <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg">
-        //         <form
-        //             className="space-y-4"
-        //             onSubmit={handleSubmit(handleOnSubmit)}
-        //         >
-        //             <h2 className="text-2xl font-bold text-center text-gray-800">
-        //                 Register
-        //             </h2>
-        //             <div className="space-y-2">
-        //                 <label
-        //                     htmlFor="username"
-        //                     className="block text-sm font-medium text-gray-700"
-        //                 >
-        //                     Username
-        //                 </label>
-        //                 <input
-        //                     type="text"
-        //                     id="username"
-        //                     placeholder="Enter your username"
-        //                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        //                     {...register("name", { required: true })}
-        //                 />
-        //                 {errors.name && (
-        //                     <p className="text-red-500">
-        //                         {errors.name.message}
-        //                     </p>
-        //                 )}
-        //             </div>
-        //             <div className="space-y-2">
-        //                 <label
-        //                     htmlFor="username"
-        //                     className="block text-sm font-medium text-gray-700"
-        //                 >
-        //                     Email
-        //                 </label>
-        //                 <input
-        //                     type="email"
-        //                     id="username"
-        //                     placeholder="Enter your email"
-        //                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        //                     {...register("email", { required: true })}
-        //                 />
-        //                 {errors.email && (
-        //                     <p className="text-red-500">
-        //                         {errors.email.message}
-        //                     </p>
-        //                 )}
-        //             </div>
-        //             <div className="space-y-2">
-        //                 <label
-        //                     htmlFor="password"
-        //                     className="block text-sm font-medium text-gray-700"
-        //                 >
-        //                     Password
-        //                 </label>
-        //                 <input
-        //                     type="password"
-        //                     id="password"
-        //                     placeholder="Enter your password"
-        //                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        //                     {...register("password", { required: true })}
-        //                 />
-        //                 {errors.password && (
-        //                     <p className="text-red-500">
-        //                         {errors.password.message}
-        //                     </p>
-        //                 )}
-        //             </div>
-        //             <div className="space-y-2">
-        //                 <label
-        //                     htmlFor="confirm-password"
-        //                     className="block text-sm font-medium text-gray-700"
-        //                 >
-        //                     Confirm Password
-        //                 </label>
-        //                 <input
-        //                     type="password"
-        //                     id="confirm-password"
-        //                     placeholder="Re-enter your password"
-        //                     className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        //                     {...register("confirmPassword", {
-        //                         required: true,
-        //                     })}
-        //                 />
-        //                 {errors.confirmPassword && (
-        //                     <p className="text-red-500">
-        //                         {errors.confirmPassword.message}
-        //                     </p>
-        //                 )}
-        //             </div>
-        //             <button
-        //                 type="submit"
-        //                 className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-        //             >
-        //                 Register
-        //             </button>
-        //         </form>
-        //     </div>
-        // </div>
         <div id="main">
-            {/* <!-- LOGIN --> */}
+            {/* <!-- Register --> */}
             <div id="register">
                 <div className="register-banner">
                     <div className="uiregister ">
@@ -153,57 +73,88 @@ const Register = (props: Props) => {
                                 </span>
                             </h1>
                         </div>
-                        <form action="" onSubmit={handleSubmit(handleOnSubmit)}>
+                        <form action="" onSubmit={handleSubmit}>
                             <div className="register-mid">
-                                <input
-                                    type="text"
-                                    placeholder="Họ Và Tên "
-                                    {...register("name")}
-                                />
-                                {errors.name && (
-                                    <p className="text-red-500">
-                                        {errors.name.message}
-                                    </p>
-                                )}
-                                <input
-                                    type="text"
-                                    placeholder="Email"
-                                    {...register("email")}
-                                />
-                                {errors.email && (
-                                    <p className="text-red-500">
-                                        {errors.email.message}
-                                    </p>
-                                )}
-                                <input
-                                    placeholder="Mật khẩu"
-                                    type="password"
-                                    {...register("password")}
-                                />
-                                {errors.password && (
-                                    <p className="text-red-500">
-                                        {errors.password.message}
-                                    </p>
-                                )}
-                                <input
-                                    placeholder="Nhập Lại Mật khẩu"
-                                    type="password"
-                                    {...register("confirmPassword")}
-                                />
-                                {errors.confirmPassword && (
-                                    <p className="text-red-500">
-                                        {errors.confirmPassword.message}
-                                    </p>
-                                )}
-                                {/* <div className="sub-register-mid">
-                                    <p></p>
-                                    <p>
-                                        <a href="#">Quên mật khẩu?</a>
-                                    </p>
-                                </div> */}
+                                {/*  email*/}
+                                <div className="mb-[40px]">
+                                    <div className="relative">
+                                        <label
+                                            htmlFor="email"
+                                            className="font-bold text-2xl absolute -top-10 left-[110px]"
+                                        >
+                                            Email
+                                        </label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            required
+                                            // className="p-2 border border-gray-300 rounded w-full"
+                                        />
+                                    </div>
+                                </div>
+                                {/* referenceId */}
+                                <div className="mb-[40px]">
+                                    <div className="relative">
+                                        <label
+                                            htmlFor="email"
+                                            className="font-bold text-2xl absolute -top-10 left-[110px]"
+                                        >
+                                            ReferenceId
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="referenceId"
+                                            name="referenceId"
+                                            value={referenceId}
+                                            onChange={(e) =>
+                                                setReferenceId(e.target.value)
+                                            }
+                                            required
+                                            // className="p-2 border border-gray-300 rounded w-full"
+                                        />
+                                    </div>
+                                </div>
+                                {/* externalWalletAddress */}
+                                <div className="mb-[40px]">
+                                    <div className="relative">
+                                        <label
+                                            htmlFor="email"
+                                            className="font-bold text-2xl absolute -top-10 left-[110px]"
+                                        >
+                                            ExternalWalletAddress
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="externalWalletAddress"
+                                            name="externalWalletAddress"
+                                            value={externalWalletAddress}
+                                            onChange={(e) =>
+                                                setExternalWalletAddress(
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                            // className="p-2 border border-gray-300 rounded w-full"
+                                        />
+                                    </div>
+                                </div>
                             </div>
+                            {error && <p className="text-red-500">{error}</p>}
                             <div className="register-bot">
-                                <input type="submit" value="Đăng Kí" />
+                                <button
+                                    type="submit"
+                                    className="text-[20px] bg-red-500 text-white p-4 rounded"
+                                    disabled={loading}
+                                >
+                                    {loading
+                                        ? "Đang đăng ký..."
+                                        : "Đăng ký người dùng"}
+                                </button>
                             </div>
                         </form>
                         <div className="another-register">
